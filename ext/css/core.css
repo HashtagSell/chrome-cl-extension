@@ -1,0 +1,73 @@
+body
+{
+	background:#fff;
+}
+
+.bdr3px 
+{
+	-webkit-border-radius:3px;
+	   -moz-border-radius:3px;
+	        border-radius:3px;
+}
+
+.bdr6px 
+{
+	-webkit-border-radius:6px;
+	   -moz-border-radius:6px;
+	        border-radius:6px;
+}
+
+.bdr12px 
+{
+	-webkit-border-radius:12px;
+	   -moz-border-radius:12px;
+	        border-radius:12px;
+}
+
+.bdr18px 
+{	
+	-webkit-border-radius:18px;
+	   -moz-border-radius:18px;
+	        border-radius:18px;
+}
+
+.bdr24px 
+{	
+	-webkit-border-radius:24px;
+	   -moz-border-radius:24px;
+	        border-radius:24px;
+}
+
+.bdr36px 
+{	
+	-webkit-border-radius:36px;
+	   -moz-border-radius:36px;
+	        border-radius:36px;
+}
+
+.left
+{
+	float:left;
+}
+
+.right
+{
+	float:right;
+}
+
+.hide
+{
+	display:none !important;
+}
+
+.ani25all
+{
+	-webkit-transition: all .25s ease-in-out !important;
+	   -moz-transition: all .25s ease-in-out !important;
+	     -o-transition: all .25s ease-in-out !important;
+	        transition: all .25s ease-in-out !important;
+}
+
+*:focus {outline: none;}
+.ib{ display:inline-block; }
+.nowrap{ white-space:nowrap; }
