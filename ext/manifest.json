@@ -1,10 +1,13 @@
 {
 	"manifest_version": 2,
-	"name": "#Sell | Craigslist Listing Tool",
+	"name": "#Sell -> Craigslist",
 	"version": "0.1",
 	"description": "Post your #Sell listings on Craigslist.",
 	"homepage_url": "http://hashtagsell.com",
-	"default_locale": "en",
+
+	"browser_action": {
+		"default_icon": "icons/48x48.png"
+	},
 
 	"icons": {
 		"16" : "icons/16x16.png",
@@ -15,15 +18,34 @@
 	"background": {
 		"scripts": [
 			"js/background.js"
-		],
-		"persistent": true
+		]
 	},
 
 	"permissions": [
+		"storage",
 		"tabs", 
 		"<all_urls>",
-		"storage",
-	    "http://*/*",
-    	"https://*/*"
-	]
+		"*://*/*"
+	],
+	
+	"web_accessible_resources": [
+		"js/*"
+	],
+	
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+
+    "content_scripts": [{
+        "matches": [
+            "*://post.craigslist.org/*"
+        ],
+        "js": [
+			"js/mootools-core-1.3.1.js",
+			"js/mootools-more-1.4.0.1.js",
+			"js/common.js",
+			"js/listingmeta.js",
+			"js/inject.js"
+        ],
+        "run_at": "document_end",
+        "all_frames": false
+    }]
 }
