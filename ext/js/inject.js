@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 			{
 				console.log('fill in form');
 				chrome.runtime.sendMessage({ 'cmd':'setTryCreds' });
-				input_username.value = request.data.username+'12345';
+				input_username.value = request.data.username;
 				input_password.value = request.data.password;
 				login_form.submit();
 			}
