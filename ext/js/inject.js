@@ -1,4 +1,56 @@
 //CONTENT.JS equiv
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
+	console.log('listening to background.js -> request:', request);
+	
+	switch(request.fx)
+	{
+		case 'credsExist':
+			console.log('request.data', request.data);
+
+			var login_form = $$$('form[name=login]'),
+				input_username = $('inputEmailHandle'),
+				input_password = $('inputPassword');
+
+			console.log('login_form', login_form);
+
+			if(request.data && !request.try_creds)
+			{
+				console.log('fill in form');
+				chrome.runtime.sendMessage({ 'cmd':'setTryCreds' });
+				input_username.value = request.data.username+'12345';
+				input_password.value = request.data.password;
+				login_form.submit();
+			}
+			else
+			{
+				//if so, populate and post
+				//else set up for capturing creds
+				console.log('listen to form');
+
+				login_form.addEvent('submit', function(e){
+					var username = input_username.value,
+						password = input_password.value;
+
+					console.log('username:', username);
+					console.log('password:', password);
+		
+					//send these to the background. if the next page is the authed page, store in localstorage for the #sell username
+					chrome.runtime.sendMessage(
+						{
+							'cmd':'storeTempCreds',
+							'creds' : {
+								'username' : username,
+								'password' : password
+							}
+						}
+					);
+				});
+			}
+			break;
+	}
+	
+});
+
 var is_running = false,
 	qs = queryStringObject();
 
@@ -131,36 +183,49 @@ var CraigslistAutoPoster = function()
 	}
 }
 
-chrome.runtime.sendMessage(
-	{
-		'cmd':'isRunning',
-		'path' : document.location.pathname
-	}, 
-	function(response)
-	{
-		console.log('chrome.runtime.sendMessage.isRunning.repsonse:', response);
-		is_running = response;
-		console.log('is_running:', is_running);
+if(document.location.toString() == 'https://accounts.craigslist.org/login')
+{
+	console.log('https://accounts.craigslist.org/login');
 	
-		if(is_running == false) return;
+	// send a message to the background and see if there're creds for the user
+	chrome.runtime.sendMessage({ 'cmd':'triedCreds' });
+	chrome.runtime.sendMessage({ 'cmd':'credsExist' });
+	chrome.runtime.sendMessage({ 'cmd':'clearTempCreds' });
+}
+else if(document.location.toString() == 'https://accounts.craigslist.org/login/home')
+{
+	chrome.runtime.sendMessage({ 'cmd':'commitTempCreds' });
+	chrome.runtime.sendMessage({ 'cmd':'resetTryCreds' });
+}
+else
+{
+	chrome.runtime.sendMessage(
+		{
+			'cmd':'isRunning',
+			'path' : document.location.pathname
+		}, 
+		function(response)
+		{
+			console.log('chrome.runtime.sendMessage.isRunning.repsonse:', response);
+			is_running = response;
+			console.log('is_running:', is_running);
 
-		if(is_running == true && qs.s == 'type')
-		{	
-			is_running = document.location.pathname;
-			putActiveURL(is_running);
+			if(is_running == false) return;
+
+			if(is_running == true && qs.s == 'type')
+			{	
+				is_running = document.location.pathname;
+				putActiveURL(is_running);
+			}
+
+			if(is_running != document.location.pathname)
+				return putActiveURL(false);
+
+			console.log('init CraigslistAutoPoster');
+			console.log('qs', qs);
+
+			var clp = new CraigslistAutoPoster();
+			clp.run(qs.s);
 		}
-
-		if(is_running != document.location.pathname)
-			return putActiveURL(false);
-		
-		console.log('init CraigslistAutoPoster');
-		console.log('qs', qs);
-
-		var clp = new CraigslistAutoPoster();
-		clp.run(qs.s);
-	}
-);
-
-// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-// 	console.log('listening to background.js -> request:', request);
-// });
+	);
+}
