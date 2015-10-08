@@ -1,4 +1,25 @@
 //CONTENT.JS equiv
+
+var is_running = false,
+	json_data,
+	qs = queryStringObject();
+
+window.addEventListener("message", function(event) {
+	// We only accept messages from ourselves
+	if(event.source != window) return;
+
+	if(!event.data.cmd) return;
+
+	console.log("cmd received: ", event.data);
+	
+	if(!['create', 'delete', 'edit', 'putActiveURL'].contains(event.data.cmd)) return;
+
+	if(event.data.data) json_data = event.data.data;
+	chrome.runtime.sendMessage(event.data);
+
+}, false);
+
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 	console.log('listening to background.js -> request:', request);
 	
@@ -34,7 +55,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 					console.log('username:', username);
 					console.log('password:', password);
 		
-					//send these to the background. if the next page is the authed page, store in localstorage for the #sell username
+					//send these to the background. if the next page is the authed page, store in localstorage for the HashtagSell username
 					chrome.runtime.sendMessage(
 						{
 							'cmd':'storeTempCreds',
@@ -51,20 +72,23 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 	
 });
 
-var is_running = false,
-	qs = queryStringObject();
-
-function putActiveURL(path)
+function putActiveURL(path, callback)
 {
-	chrome.runtime.sendMessage({
-		'cmd' : 'putActiveURL',
-		'path' : path
-	});
+	chrome.runtime.sendMessage(
+		{
+			'cmd' : 'putActiveURL',
+			'path' : path
+		},
+		function(response){ if(callback) callback(response) }
+	);
 }
 
 var CraigslistAutoPoster = function()
 {
 	var _this = this;
+	
+	this.image_queue = Array.clone(json_data.images);
+	this.image_buffers = {};
 	
 	this.selectRadioInput = function(v)
 	{
@@ -104,36 +128,48 @@ var CraigslistAutoPoster = function()
 
 	this.populateListing = function()
 	{
+		if(is_running == 'edit') 
+		{
+			$$$('button[type=submit]', $('postingForm')).addEvent('click', function(e){
+				putActiveURL('edited');
+			});
+			return;
+		}
+
 		$('PostingTitle').value = json_data.heading;
 		$('Ask').value = toMoney(json_data.askingPrice.value);
 		$('postal_code').value = json_data.location.postalCode;
 		
-		var body = $DIV().set('html', json_data.body);
+		var body = $DIV().set('html', json_data.body.trim());
 		$('PostingBody').value = body.get('text');
 		
-		json_data.annotations.each(function(a){
-			//skip annotations without values
-			if(!a.value) return;
-			
-			switch(a.key.toLowerCase())
-			{
-				case 'brand':
-			 		$('sale_manufacturer').value = a.value;
-			 		break;
-				case 'model':
-			 		$('sale_model').value = a.value;
-			 		break;
-			}
-		});
+		if(json_data.annotations)
+			json_data.annotations.each(function(a){
+				//skip annotations without values
+				if(!a.value) return;
+		
+				switch(a.key.toLowerCase())
+				{
+					case 'brand':
+						$('sale_manufacturer').value = a.value;
+						break;
+					case 'model':
+						$('sale_model').value = a.value;
+						break;
+				}
+			});
 		
 		//now do the 'want a map'
-		var loc = json_data.location;
-		if(loc.city && loc.state)
+		if(json_data.location)
 		{
-	 		$('city').value = loc.city;
-	 		$('region').value = loc.state;
-			if(loc.street1) $('xstreet0').value = loc.street1;
-	 		$('wantamap').set('checked', true);
+			var loc = json_data.location;
+			if(loc.city && loc.state)
+			{
+				$('city').value = loc.city;
+				$('region').value = loc.state;
+				if(loc.street1) $('xstreet0').value = loc.street1;
+				$('wantamap').set('checked', true);
+			}
 		}
 
 		$$$('input[name=sale_condition]').getPrevious('select').selectedIndex = 4;
@@ -145,20 +181,70 @@ var CraigslistAutoPoster = function()
 	{
 		$('leafletForm').submit()
 	}
-	
-	this.populatePhotos = function()
-	{
-		$$$('button.done').getParent('form').submit()
-	}
+		
+	//this.populatePhotos MOVED below run
 
+	// disabled for create -> per https://github.com/HashtagSell/chrome-cl-extension/issues/11
 	this.preview = function()
 	{
-		$$$('button[type=submit]').getParent('form').submit()
+		console.log('inject.preview:', is_running);
+		if(is_running == 'edit')
+		{
+			var checkpath = document.location.href.split('?')[0];
+			console.log('inject.preview.checkpath:', checkpath);
+
+			var editforms = $$('form[action='+checkpath+']');
+			console.log('inject.preview.editforms:', editforms);
+			if(!editforms.length) return putActiveURL(false);
+		
+			var form = editforms.filter(function(f){
+				return $$$('button[type=submit]', f).value.toLowerCase() == 'edit text'
+			});
+
+			console.log('inject.preview.form:', form);
+			if(!form.length) return putActiveURL(false);
+			form[0].submit()
+			
+		}
+		else if(is_running == 'edited')
+		{
+			$$$('button[type=submit]').getParent('form').submit()
+		}
 	}
 	
 	//this is the DONE step
 	this.redirect = function()
 	{
+		//get all the hrefs on the page
+		//if the text == the href -> public url
+		//if the text contains 'manage your post' -> edit/delete url
+		var listing_urls = {
+			'private' : null,
+			'public' : null
+		};
+		
+		$$('a').each(function(a){
+			var href = a.get('href')
+			if(a.get('text') == href)
+				listing_urls['public'] = href;
+			else if(a.get('text').toLowerCase().contains('manage'))
+				listing_urls['private'] = href;
+		});
+
+		//send the manage url to the backend
+		console.log('inject.redirect.listing_urls:', listing_urls);
+		new Request({
+			url: 'https://production-posting-api.hashtagsell.com/v1/postings/'+json_data.postingId+'/publish',
+			method : 'POST',
+			urlEncoded : false,
+			headers : { 'Content-Type' : 'application/json' },
+			data : JSON.encode({ 'craigslist' : listing_urls }),
+			onComplete: function(response)
+			{
+				console.log('inject.redirect.listing_urls.response: ', response);
+			}
+		}).send();
+
 		putActiveURL(false);
 	}
 
@@ -169,7 +255,8 @@ var CraigslistAutoPoster = function()
 	
 	this.run = function(step)
 	{
-		({
+		console.log('inject.run:', step);
+		var steps = {
 			'type' : 		_this.selectFSBO,
 			'cat' : 		_this.selectCategory,
 			'subarea' : 	_this.selectSubarea,
@@ -179,8 +266,132 @@ var CraigslistAutoPoster = function()
 			'editimage' : 	_this.populatePhotos,
 			'preview' : 	_this.preview,
 			'redirect' : 	_this.redirect
-		})[step]()
+		}
+		var s = steps[step];
+		console.log('inject.run.s:', s);
+
+		if(!s && ['edit', 'delete'].contains(is_running))
+		{
+			console.log('inject.checkpath:', document.location.pathname);
+			var editforms = $$('form[action='+document.location.pathname+']');
+			console.log('inject.editforms:', editforms);
+			if(!editforms.length) return putActiveURL(false);
+			
+			var selector = (is_running == 'edit') ? 'edittext' : 'delete',
+				form = editforms.filter(function(f){
+					return $$$('input[value='+selector+']', f) != undefined
+				});
+
+			console.log('inject.form:', form);
+			if(!form.length) return putActiveURL(false);
+			form[0].submit();
+		}
+		console.log('inject.running.s:', s);
+		s()
 	}
+	
+	this.populatePhotos = function()
+	{
+		var div_posting = $$$('section.body div.posting'),
+			size = div_posting.getSize(),
+			div = $DIV()
+				.setStyles({
+					'position' : 'absolute',
+					'z-index' : 10000,
+					'background' : 'rgba(0,0,0,.75)',
+					'color' : '#fff',
+					'width' : size.x,
+					'height' : size.y,
+					'margin-top' : -(div_posting.getStyle('padding-top').toInt()+2),
+					'margin-left' : -(div_posting.getStyle('padding-left').toInt()+2)
+				})
+				.adopt(
+					$H1().setStyles({
+						'position' : 'absolute',
+						'width' : 250,
+						'left' : 'calc(50% - 125px)',
+						'top' : '45%'
+					}).set('text', 'Uploading photos...')
+				);
+
+		div.inject(div_posting, 'top');
+// 		return;
+		
+		_this.image_queue.each(function(img, i){ 
+			_this.getImageFromHashtagSell(img.full, i) 
+		})
+	}
+	
+	this.getImageFromHashtagSell = function(url, idx)
+	{
+		console.log('getImage:', url);
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', url, true);
+		// Response type arraybuffer - XMLHttpRequest 2
+		xhr.responseType = 'arraybuffer';
+		xhr.onload = function(e) 
+		{
+// 			if(xhr.status == 200) _this.uploadImage(xhr.response, url);
+			_this.image_queue[idx] = null;
+			if(xhr.status == 200)
+				_this.image_buffers[url] = xhr.response;
+			
+			var wkg_img_queue = _this.image_queue.filter(function(q){ return q != null });
+			if(wkg_img_queue.length == 0 && Object.getLength(_this.image_buffers) > 0)
+				_this.uploadImagesToCraigslist();
+		};
+		
+		xhr.send();
+	}
+	
+	this.uploadImagesToCraigslist = function()
+	{
+		console.log('uploadImagesToCraigslist --- start');
+
+		var xhr = new XMLHttpRequest(),
+			doc = document,
+			form = doc.forms[0],
+			elems = form.elements,
+			url = [doc.location.origin, doc.location.pathname].join('');
+
+		console.log('uploadImagesToCraigslist.url:', url);
+
+		var form_data = new FormData();
+		form_data.append('name',  'tmpfile'+ _this.photo_count +'.jpg');
+		form_data.append(elems[0].name, elems[0].value);
+		form_data.append('ajax',  '1');
+		form_data.append('a', 'add');
+
+		json_data.images.each(function(img, i){
+			var ab = _this.image_buffers[img.full];
+			if(!ab) return;
+			form_data.append( 'file', new Blob([ab], {type: "image/jpeg"}), 'tmpfile'+ i +'.jpg' )
+		});
+// 		form_data.append( 'file', new Blob([arrayBuffer], {type: "image/jpeg"}), 'tmpfile'+ _this.photo_count+1 +'.jpg' );
+
+		xhr.open('POST', url, true);
+		xhr.onload = function(e)
+		{
+			if(xhr.status == 200)
+			{
+				console.log('uploadImagesToCraigslist -> DONE!');
+				$$$('button.done').getParent('form').submit()
+			}
+			else
+				return alert('Problem uploading images');
+		};
+		xhr.ontimeout = function(e)
+		{
+			console.log('uploadImagesToCraigslist -> ERROR: TIMEOUT');
+		};
+		xhr.onerror = function(e)
+		{
+			console.log('uploadImagesToCraigslist -> ERROR: ONERROR');
+		};
+
+		console.log('uploadImagesToCraigslist -> sending..');
+		xhr.send(form_data);
+	};	
 }
 
 if(document.location.toString() == 'https://accounts.craigslist.org/login')
@@ -194,11 +405,13 @@ if(document.location.toString() == 'https://accounts.craigslist.org/login')
 }
 else if(document.location.toString() == 'https://accounts.craigslist.org/login/home')
 {
+	console.log('login/home');
 	chrome.runtime.sendMessage({ 'cmd':'commitTempCreds' });
 	chrome.runtime.sendMessage({ 'cmd':'resetTryCreds' });
 }
 else
 {
+	console.log('isRunning???');
 	chrome.runtime.sendMessage(
 		{
 			'cmd':'isRunning',
@@ -218,14 +431,25 @@ else
 				putActiveURL(is_running);
 			}
 
-			if(is_running != document.location.pathname)
+			if(
+				document.location.hostname.contains('craigslist') && 
+				!['edit', 'edited', 'delete'].contains(is_running) && 
+				is_running != document.location.pathname
+			)
 				return putActiveURL(false);
 
-			console.log('init CraigslistAutoPoster');
-			console.log('qs', qs);
-
-			var clp = new CraigslistAutoPoster();
-			clp.run(qs.s);
+			chrome.runtime.sendMessage(
+				{ 'cmd' : 'getListingMeta' },
+				function(response)
+				{
+					json_data = response;
+					console.log('getListingMeta.json_data:', json_data);
+					console.log('qs', qs);
+					console.log('init CraigslistAutoPoster');
+					var clp = new CraigslistAutoPoster();
+					clp.run(qs.s);
+				}
+			);
 		}
 	);
 }

@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
-	"name": "#Sell -> Craigslist",
+	"name": "HashtagSell -> Craigslist",
 	"version": "0.1",
-	"description": "Post your #Sell listings on Craigslist.",
+	"description": "Post your HashtagSell listings on Craigslist.",
 	"homepage_url": "http://hashtagsell.com",
 
 	"browser_action": {
@@ -38,13 +38,12 @@
 
     "content_scripts": [{
         "matches": [
-            "*://*.craigslist.org/*"
+			"*://*/*"
         ],
         "js": [
 			"js/mootools-core-1.3.1.js",
 			"js/mootools-more-1.4.0.1.js",
 			"js/common.js",
-			"js/listingmeta.js",
 			"js/inject.js"
         ],
         "run_at": "document_end",
