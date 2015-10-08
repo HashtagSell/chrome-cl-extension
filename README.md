@@ -11,8 +11,7 @@ Auto publish craigslist extension
   * this will bring up a file picker. navigate to where you unzipped the downloaded file and select the "ext" folder
   
 ## To run
- * Go to <accounts.craigslist.org/login> and login with your credentials
-  * the extension will not work right now if you're not logged in
- * you'll see the HashtagSell icon in the upper right of the browser next to the address bar
- * click it and it'll launch a new tab and post the item provided in <https://github.com/HashtagSell/chrome-cl-extension/issues/6>
- * put you hands behind your head and make this look easy
+ * Open the web/index.html
+ * Click a function (this will send the command to the extension)
+
+NOTE: The listing being used is the one Brad provided. The corresponding edit links are hard-coded into the web json file to test. If you delete the listing, it'll no longer be editable. 
