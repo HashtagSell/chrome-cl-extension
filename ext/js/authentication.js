@@ -7,15 +7,20 @@ var CraigslistCredentials = function(attr)
 	this.promptForCreds = function()
 	{
 		chrome.tabs.create(
-			{ url: 'https://accounts.craigslist.org/login' }, 
+			{ url: 'https://accounts.craigslist.org/logout' },
 			function(tab)
 			{
 				console.log('promptForCreds.tab:', _this.ext.listing_meta.username, tab, tab.id);
 				_this.ext.active_tab = tab;
-				
-				//onload inject and add a submit event to the login form
-// 				chrome.tabs.sendMessage(tab.id, 'inject');
-// 				console.log('sent message', tab.id);
+
+				chrome.tabs.update(
+					tab.id, 
+					{ url: 'https://accounts.craigslist.org/login' }, 
+					function(tab)
+					{
+// 						console.log('startAutoPosting.tab:', tab, tab.id);
+					}
+				);			
 			}
 		);
 	};

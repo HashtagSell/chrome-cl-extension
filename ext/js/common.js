@@ -226,3 +226,19 @@
 		if(Date.now) return Date.now();
 		return new Date().getTime();
 	}
+	
+	function haversine(origin, destination)
+	{
+		var radians = function(degrees){ return degrees * (Math.PI / 180) },
+			lat1 = origin[0],
+			lon1 = origin[1],
+			lat2 = destination[0],
+			lon2 = destination[1],
+			radius = 6371, // km
+			dlat = radians(lat2-lat1),
+			dlon = radians(lon2-lon1),
+			a = Math.sin(dlat/2) * Math.sin(dlat/2) + Math.cos(radians(lat1)) * Math.cos(radians(lat2)) * Math.sin(dlon/2) * Math.sin(dlon/2),
+			c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		return radius * c * 1000
+	}
+	

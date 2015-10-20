@@ -1,0 +1,70 @@
+{
+  "username": "testinguser",
+  "heading": "iphone",
+  "body": "I'm selling my <span class=\"mention-highlighter\" contenteditable=\"false\">#iphone</span>&nbsp;for <span class=\"mention-highlighter-price\" contenteditable=\"false\">$300</span>&nbsp;<span class=\"mention-highlighter-location\" contenteditable=\"false\">@San Francisco, CA, United States</span>&nbsp;",
+  "expiresAt": "2015-10-28T00:46:11.441Z",
+  "categoryCode": "SELE",
+  "annotations": [
+    {
+      "key": "Brand",
+      "value": null
+    },
+    {
+      "key": "Color",
+      "value": null
+    },
+    {
+      "key": "Screen Size",
+      "value": null
+    },
+    {
+      "key": "Model",
+      "value": null
+    },
+    {
+      "key": "Warranty",
+      "value": null
+    }
+  ],
+  "postingId": "cba9a1a6dc2141df8403b669be8f62c6",
+  "location": {
+    "state": "CA",
+    "country": "US"
+  },
+  "language": "EN",
+  "images": [
+    {
+      "full": "https://static.hashtagsell.com/posts/1e789ae0f34e30c72f211994479b99cb.jpg",
+      "thumbnail": "https://static.hashtagsell.com/posts/thumb_1e789ae0f34e30c72f211994479b99cb.jpg"
+    },
+    {
+      "full": "https://static.hashtagsell.com/posts/8c22f535af726ac2d8efffcd64cb0ff7.jpg",
+      "thumbnail": "https://static.hashtagsell.com/posts/thumb_8c22f535af726ac2d8efffcd64cb0ff7.jpg"
+    }
+  ],
+  "geo": {
+    "coordinates": [
+      -122.41941550000001,
+      37.7749295
+    ]
+  },
+  "createdAt": "2015-10-14T00:46:11.441Z",
+  "askingPrice": {
+    "value": "300",
+    "currency": "USD"
+  },
+  "external": {
+    "threeTaps": {
+      "categoryGroup": "SSSS",
+      "category": "SELE",
+      "location": {
+        "state": "CA",
+        "formatted": "San Francisco, CA, United States",
+        "country": "US"
+      }
+    },
+    "source": {
+      "code": "HSHTG"
+    }
+  }
+}

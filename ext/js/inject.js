@@ -19,7 +19,6 @@ window.addEventListener("message", function(event) {
 
 }, false);
 
-
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 	console.log('listening to background.js -> request:', request);
 	
@@ -83,8 +82,26 @@ function putActiveURL(path, callback)
 	);
 }
 
+function displayError()
+{
+	var div = $DIV()
+		.setStyles({
+			'background' : 'rgba(255,0,0,.75)',
+			'color' : '#fff',
+			'width' : 'calc(100% - 40px)',
+			'padding' : 20,
+			'border' : '2px solid red'
+		})
+		.set('text', 'Sorry, there was an error auto-posting your item. Please finish it up manually.');
+
+	div.inject($$$('section.body'), 'top');
+}
+
 var CraigslistAutoPoster = function()
 {
+	if(!json_data) 
+		return console.log('CraigslistAutoPoster.!json');
+
 	var _this = this;
 	
 	this.image_queue = Array.clone(json_data.images);
@@ -137,11 +154,29 @@ var CraigslistAutoPoster = function()
 		}
 
 		$('PostingTitle').value = json_data.heading;
-		$('Ask').value = toMoney(json_data.askingPrice.value);
-		$('postal_code').value = json_data.location.postalCode;
+
+		if(json_data.askingPrice && json_data.askingPrice.value)
+			$('Ask').value = toMoney(json_data.askingPrice.value);
+
+		if(json_data.location && json_data.location.postalCode)
+			$('postal_code').value = json_data.location.postalCode;
 		
 		var body = $DIV().set('html', json_data.body.trim());
-		$('PostingBody').value = body.get('text');
+		
+		//append the annotations
+		if(json_data.annotations && json_data.annotations.length)
+		{
+			var ul = $UL();
+			body.adopt(ul);
+			json_data.annotations.each(function(annotation){
+				if(!annotation.value || !annotation.value) return;
+				ul.adopt(
+					$LI().set('html', annotation.key + ': ' + annotation.value)
+				);
+			});
+		}
+		
+		$('PostingBody').value = body.get('html');
 		
 		if(json_data.annotations)
 			json_data.annotations.each(function(a){
@@ -234,7 +269,7 @@ var CraigslistAutoPoster = function()
 		//send the manage url to the backend
 		console.log('inject.redirect.listing_urls:', listing_urls);
 		new Request({
-			url: 'https://production-posting-api.hashtagsell.com/v1/postings/'+json_data.postingId+'/publish',
+			url: 'https://staging-posting-api.hashtagsell.com/v1/postings/'+json_data.postingId+'/publish',
 			method : 'POST',
 			urlEncoded : false,
 			headers : { 'Content-Type' : 'application/json' },
@@ -242,10 +277,9 @@ var CraigslistAutoPoster = function()
 			onComplete: function(response)
 			{
 				console.log('inject.redirect.listing_urls.response: ', response);
+				putActiveURL(false);
 			}
 		}).send();
-
-		putActiveURL(false);
 	}
 
 	this.submit = function()
@@ -316,6 +350,9 @@ var CraigslistAutoPoster = function()
 
 		div.inject(div_posting, 'top');
 // 		return;
+		
+		if(!_this.image_queue.length)
+			return $$$('button.done').getParent('form').submit();
 		
 		_this.image_queue.each(function(img, i){ 
 			_this.getImageFromHashtagSell(img.full, i) 
@@ -391,65 +428,82 @@ var CraigslistAutoPoster = function()
 
 		console.log('uploadImagesToCraigslist -> sending..');
 		xhr.send(form_data);
-	};	
+	}
 }
 
-if(document.location.toString() == 'https://accounts.craigslist.org/login')
-{
-	console.log('https://accounts.craigslist.org/login');
-	
-	// send a message to the background and see if there're creds for the user
-	chrome.runtime.sendMessage({ 'cmd':'triedCreds' });
-	chrome.runtime.sendMessage({ 'cmd':'credsExist' });
-	chrome.runtime.sendMessage({ 'cmd':'clearTempCreds' });
-}
-else if(document.location.toString() == 'https://accounts.craigslist.org/login/home')
-{
-	console.log('login/home');
-	chrome.runtime.sendMessage({ 'cmd':'commitTempCreds' });
-	chrome.runtime.sendMessage({ 'cmd':'resetTryCreds' });
-}
-else
-{
-	console.log('isRunning???');
-	chrome.runtime.sendMessage(
+console.log('isRunning???');
+chrome.runtime.sendMessage(
+	{
+		'cmd':'isRunning',
+		'path' : document.location.pathname
+	}, 
+	function(response)
+	{
+		console.log('chrome.runtime.sendMessage.isRunning.repsonse:', response);
+		is_running = response;
+		console.log('is_running:', is_running);
+
+		if(is_running == false) return;
+		
+		if(is_running != true)
 		{
-			'cmd':'isRunning',
-			'path' : document.location.pathname
-		}, 
-		function(response)
-		{
-			console.log('chrome.runtime.sendMessage.isRunning.repsonse:', response);
-			is_running = response;
-			console.log('is_running:', is_running);
-
-			if(is_running == false) return;
-
-			if(is_running == true && qs.s == 'type')
-			{	
-				is_running = document.location.pathname;
-				putActiveURL(is_running);
-			}
-
-			if(
-				document.location.hostname.contains('craigslist') && 
-				!['edit', 'edited', 'delete'].contains(is_running) && 
-				is_running != document.location.pathname
-			)
+			if(document.location.toString() == 'https://accounts.craigslist.org/logout')
+			{
+				console.log('https://accounts.craigslist.org/logout');
 				return putActiveURL(false);
-
-			chrome.runtime.sendMessage(
-				{ 'cmd' : 'getListingMeta' },
-				function(response)
-				{
-					json_data = response;
-					console.log('getListingMeta.json_data:', json_data);
-					console.log('qs', qs);
-					console.log('init CraigslistAutoPoster');
-					var clp = new CraigslistAutoPoster();
-					clp.run(qs.s);
-				}
-			);
+			}
 		}
-	);
-}
+		else if(is_running == true)
+		{
+			if(document.location.toString() == 'https://accounts.craigslist.org/login')
+			{
+				console.log('https://accounts.craigslist.org/login');
+	
+				// send a message to the background and see if there're creds for the user
+				chrome.runtime.sendMessage({ 'cmd':'triedCreds' });
+				chrome.runtime.sendMessage({ 'cmd':'credsExist' });
+				chrome.runtime.sendMessage({ 'cmd':'clearTempCreds' });
+				return;
+			}
+			else if(document.location.toString() == 'https://accounts.craigslist.org/login/home')
+			{
+				console.log('login/home');
+				chrome.runtime.sendMessage({ 'cmd':'commitTempCreds' });
+				chrome.runtime.sendMessage({ 'cmd':'resetTryCreds' });
+				return;
+			}
+		}
+
+		if(is_running == true && qs.s == 'type')
+		{	
+			is_running = document.location.pathname;
+			putActiveURL(is_running);
+		}
+
+		if(
+			document.location.hostname.contains('craigslist') && 
+			!['edit', 'edited', 'delete'].contains(is_running) && 
+			is_running != document.location.pathname
+		)
+			return putActiveURL(false);
+
+		chrome.runtime.sendMessage(
+			{ 
+				'cmd' : 'getListingMeta',
+				'step' : qs.s
+			},
+			function(response)
+			{
+				console.log('getListingMeta.response:', response);
+				console.log('qs', qs);
+
+				if(response == 'inf.loop') return displayError();
+
+				json_data = response;
+				console.log('init CraigslistAutoPoster');
+				var clp = new CraigslistAutoPoster();
+				clp.run(qs.s);
+			}
+		);
+	}
+);

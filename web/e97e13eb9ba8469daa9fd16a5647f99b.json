@@ -1,0 +1,49 @@
+{
+  "username": "testinguser",
+  "heading": "cabbage patch dolls",
+  "body": "I'm giving away my <span class=\"mention-highlighter\" contenteditable=\"false\">#cabbage patch dolls</span>&nbsp;collection. &nbsp;Just pickup at my garage sale <span class=\"mention-highlighter-location\" contenteditable=\"false\">@200 Geary Street, San Francisco, CA, United States</span>&nbsp;Free!!",
+  "expiresAt": "2015-10-28T00:03:00.262Z",
+  "categoryCode": "STOY",
+  "annotations": [
+    {
+      "key": "Brand",
+      "value": null
+    },
+    {
+      "key": "Model",
+      "value": null
+    }
+  ],
+  "postingId": "e97e13eb9ba8469daa9fd16a5647f99b",
+  "location": {
+    "state": "CA",
+    "postalCode": "94102",
+    "country": "US"
+  },
+  "language": "EN",
+  "images": [],
+  "geo": {
+    "coordinates": [
+      -122.406632,
+      37.7876002
+    ]
+  },
+  "createdAt": "2015-10-14T00:03:00.262Z",
+  "askingPrice": {
+    "currency": "USD"
+  },
+  "external": {
+    "threeTaps": {
+      "categoryGroup": "SSSS",
+      "category": "STOY",
+      "location": {
+        "state": "CA",
+        "formatted": "200 Geary St, San Francisco, CA 94102, USA",
+        "country": "US"
+      }
+    },
+    "source": {
+      "code": "HSHTG"
+    }
+  }
+}

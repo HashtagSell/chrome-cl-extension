@@ -3,6 +3,7 @@ var CraigslistExtension = function()
 	var _this = this;
 	
 	this.is_running = false;
+	this.current_step = null;
 	this.is_editing = false;
 
 	this.temp_creds = null;
@@ -29,6 +30,7 @@ var CraigslistExtension = function()
 	
 	this.startAutoPosting = function()
 	{
+		_this.current_step = null;
 		chrome.tabs.update(
 			_this.active_tab.id, 
 			{ url: 'https://post.craigslist.org/c/sfo?lang=en' },
@@ -43,7 +45,7 @@ var CraigslistExtension = function()
 	{
 		console.log('handleInjectMessages.request:', request);
 		console.log('handleInjectMessages.is_running:', _this.is_running);
-	
+		
 		switch(request.cmd)
 		{
 			// command from inject that receives a command from the webpage
@@ -66,6 +68,8 @@ var CraigslistExtension = function()
 				break;
 			
 			case 'getListingMeta':
+				if(_this.current_step == request.step) return callback('inf.loop');
+				_this.current_step = request.step;
 				return callback(_this.listing_meta);
 
 			case 'isRunning':
@@ -77,10 +81,20 @@ var CraigslistExtension = function()
 			case 'putActiveURL':
 				_this.is_running = request.path;
 				console.log('handleInjectMessages.putActiveURL.is_running:', _this.is_running);
+				
+				if(request.path == false)
+				{
+					chrome.tabs.update(
+						_this.active_tab.id, 
+						{ url: 'https://accounts.craigslist.org/logout' }
+					);			
+				}
+				
 				return callback(_this.is_running || _this.is_running == request.path);
 
 			case 'doneRunning':
 				_this.is_running = false;
+				_this.current_step = null;
 				break;
 
 			case 'credsExist':

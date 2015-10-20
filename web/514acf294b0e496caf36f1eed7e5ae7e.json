@@ -1,0 +1,71 @@
+{
+  "username": "testinguser",
+  "heading": "mini pool table",
+  "body": "<span class=\"mention-highlighter\" contenteditable=\"false\">#mini pool table</span>&nbsp;for <span class=\"mention-highlighter-price\" contenteditable=\"false\">$10</span>&nbsp;<span class=\"mention-highlighter-location\" contenteditable=\"false\">@800 California 111, Palm Desert, CA, United States</span>&nbsp;",
+  "expiresAt": "2015-10-28T00:08:09.299Z",
+  "categoryCode": "SFUR",
+  "annotations": [
+    {
+      "key": "Brand",
+      "value": null
+    },
+    {
+      "key": "Color",
+      "value": null
+    },
+    {
+      "key": "Department",
+      "value": null
+    },
+    {
+      "key": "Material Type",
+      "value": null
+    },
+    {
+      "key": "Model",
+      "value": null
+    }
+  ],
+  "postingId": "514acf294b0e496caf36f1eed7e5ae7e",
+  "location": {
+    "state": "CA",
+    "postalCode": "92260",
+    "country": "US"
+  },
+  "language": "EN",
+  "images": [
+    {
+      "full": "https://static.hashtagsell.com/posts/e91348e0ef7e304ced54ebacbbbf7dbd.jpg",
+      "thumbnail": "https://static.hashtagsell.com/posts/thumb_e91348e0ef7e304ced54ebacbbbf7dbd.jpg"
+    },
+    {
+      "full": "https://static.hashtagsell.com/posts/8bfa1d191ef52418e017594e2d1cf8a8.JPG",
+      "thumbnail": "https://static.hashtagsell.com/posts/thumb_8bfa1d191ef52418e017594e2d1cf8a8.JPG"
+    }
+  ],
+  "geo": {
+    "coordinates": [
+      -116.4032894,
+      33.7293701
+    ]
+  },
+  "createdAt": "2015-10-14T00:08:09.299Z",
+  "askingPrice": {
+    "value": "10",
+    "currency": "USD"
+  },
+  "external": {
+    "threeTaps": {
+      "categoryGroup": "SSSS",
+      "category": "SFUR",
+      "location": {
+        "state": "CA",
+        "formatted": "800 CA-111, Palm Desert, CA 92260, USA",
+        "country": "US"
+      }
+    },
+    "source": {
+      "code": "HSHTG"
+    }
+  }
+}

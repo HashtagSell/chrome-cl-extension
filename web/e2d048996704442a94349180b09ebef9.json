@@ -1,0 +1,54 @@
+{
+  "username": "testinguser",
+  "heading": "ikea desk",
+  "body": "Sorry I don't have photos, but I'm selling my <span class=\"mention-highlighter\" contenteditable=\"false\">#ikea desk</span>&nbsp;for <span class=\"mention-highlighter-price\" contenteditable=\"false\">$40</span>. &nbsp;you can pickup <span class=\"mention-highlighter-location\" contenteditable=\"false\">@1400 Palo Alto Square, Palo Alto, CA, United States</span>&nbsp;",
+  "expiresAt": "2015-10-28T00:01:24.616Z",
+  "categoryCode": "SFUR",
+  "annotations": [
+    {
+      "key": "Brand",
+      "value": "Ikea"
+    },
+    {
+      "key": "Color",
+      "value": "Black"
+    },
+    {
+      "key": "Material Type",
+      "value": null
+    }
+  ],
+  "postingId": "e2d048996704442a94349180b09ebef9",
+  "location": {
+    "state": "CA",
+    "postalCode": "94301",
+    "country": "US"
+  },
+  "language": "EN",
+  "images": [],
+  "geo": {
+    "coordinates": [
+      -122.1504468,
+      37.4567493
+    ]
+  },
+  "createdAt": "2015-10-14T00:01:24.616Z",
+  "askingPrice": {
+    "value": "40",
+    "currency": "USD"
+  },
+  "external": {
+    "threeTaps": {
+      "categoryGroup": "SSSS",
+      "category": "SFUR",
+      "location": {
+        "state": "CA",
+        "formatted": "1400 Palo Alto Ave, Palo Alto, CA 94301, USA",
+        "country": "US"
+      }
+    },
+    "source": {
+      "code": "HSHTG"
+    }
+  }
+}

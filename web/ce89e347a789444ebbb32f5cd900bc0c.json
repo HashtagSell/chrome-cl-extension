@@ -1,0 +1,87 @@
+{
+  "username": "testinguser",
+  "heading": "macbook pro",
+  "body": "I'm selling my <span class=\"mention-highlighter\" contenteditable=\"false\">#macbook pro</span>&nbsp;for <span class=\"mention-highlighter-price\" contenteditable=\"false\">$350</span>&nbsp;<span class=\"mention-highlighter-location\" contenteditable=\"false\">@1499 Castro Street, San Francisco, CA, United States</span>&nbsp;",
+  "expiresAt": "2015-10-27T23:56:32.427Z",
+  "categoryCode": "SELE",
+  "annotations": [
+    {
+      "key": "Color",
+      "value": "Silver"
+    },
+    {
+      "key": "Processor Speed",
+      "value": "2.4"
+    },
+    {
+      "key": "Processor Type",
+      "value": "Intel"
+    },
+    {
+      "key": "Screen Size",
+      "value": "13"
+    },
+    {
+      "key": "Material Type",
+      "value": null
+    },
+    {
+      "key": "Model",
+      "value": null
+    },
+    {
+      "key": "OS Version",
+      "value": "10.1"
+    },
+    {
+      "key": "Memory",
+      "value": "4gb"
+    }
+  ],
+  "postingId": "ce89e347a789444ebbb32f5cd900bc0c",
+  "location": {
+    "state": "CA",
+    "postalCode": "94114",
+    "country": "US"
+  },
+  "language": "EN",
+  "images": [
+    {
+      "full": "https://static.hashtagsell.com/posts/93a1e3a3834da47e3231eb41877e1980.jpg",
+      "thumbnail": "https://static.hashtagsell.com/posts/thumb_93a1e3a3834da47e3231eb41877e1980.jpg"
+    },
+    {
+      "full": "https://static.hashtagsell.com/posts/05cb44cb4929c04dc62718b781eb08ac.jpg",
+      "thumbnail": "https://static.hashtagsell.com/posts/thumb_05cb44cb4929c04dc62718b781eb08ac.jpg"
+    },
+    {
+      "full": "https://static.hashtagsell.com/posts/2edb7933708556050639241c96d77912.jpg",
+      "thumbnail": "https://static.hashtagsell.com/posts/thumb_2edb7933708556050639241c96d77912.jpg"
+    }
+  ],
+  "geo": {
+    "coordinates": [
+      -122.4339124,
+      37.7497054
+    ]
+  },
+  "createdAt": "2015-10-13T23:56:32.427Z",
+  "askingPrice": {
+    "value": "350",
+    "currency": "USD"
+  },
+  "external": {
+    "threeTaps": {
+      "categoryGroup": "SSSS",
+      "category": "SELE",
+      "location": {
+        "state": "CA",
+        "formatted": "1499 Castro St, San Francisco, CA 94114, USA",
+        "country": "US"
+      }
+    },
+    "source": {
+      "code": "HSHTG"
+    }
+  }
+}

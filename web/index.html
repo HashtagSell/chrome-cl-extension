@@ -23,9 +23,22 @@
 				font-weight:bold;
 				font-size:21px;
 			}
+			
+			.fail
+			{
+				color:red;
+			}
 		</style>
 		<script type="text/javascript">
-			var click = function(cmd, json_data) 
+			var qs,
+				queryStringObject = function(location)
+				{
+					if(!location) location = document.location.search;
+					var ret = location.substring(1).parseQueryString();
+					if(Object.getLength(ret) == 1 && Object.keys(ret)[0] == '') ret = {};
+					return ret
+				},
+				click = function(cmd, json_data) 
 				{
 					try
 					{
@@ -43,8 +56,10 @@
 				},
 				getAndClick = function(cmd, id)
 				{
+					if(!id) id = qs.id || 'listingmeta';
+
 					new Request({
-						url: 'listingmeta.json',
+						url:  id+ '.json',
 						onComplete: function(response)
 						{
 							var data = JSON.decode(response);
@@ -55,11 +70,13 @@
 				};
 			
 			window.addEvent('domready', function(e){
+				qs = queryStringObject();
+				
 				$$('a').each(function(a){
 					a.addEvent('click', function(){ 
 						getAndClick(
 							this.get('class'),
-							'0b0b6a7dcc1d402ca7fe88f58d8df4cc'
+							this.get('key')
 						) 
 					})
 				})
@@ -72,7 +89,15 @@
 			<h2>username: hts@jasonwiener.com</h2>
 			<h2>password: hashtagsell</h2>
 		</div>
-           <a class="create" href="#">Create listing</a><br>
+		
+           <a class="create" href="#" key="0b722c04d0544adda509932485f481de">Create listing - "honda accord 1999"</a><br>
+           <a class="create" href="#" key="514acf294b0e496caf36f1eed7e5ae7e">Create listing - "mini pool table"</a><br>
+           <a class="create" href="#" key="ce89e347a789444ebbb32f5cd900bc0c">Create listing - "macbook pro"</a><br>
+           <a class="create" href="#" key="1c2dd7fcdc614c92aefceb6591ba02f4">Create listing - "schwinn"</a><br>
+           <a class="create" href="#" key="e97e13eb9ba8469daa9fd16a5647f99b">Create listing - "cabbage patch dolls"</a><br>
+           <a class="create" href="#" key="0e2c92a108f548fda119847fc268b033">Create listing - "coffee machine"</a><br>
+           <a class="create fail" href="#" key="cba9a1a6dc2141df8403b669be8f62c6">Create listing - "iPhone" #fail:Postal Code</a><br>
+           <a class="create fail" href="#" key="e2d048996704442a94349180b09ebef9">Create listing - "ikea desk" #fail: Photos</a><br>
            <a class="edit" href="#">Edit listing</a><br>
            <a class="delete" href="#">Delete listing</a>
 	</body>

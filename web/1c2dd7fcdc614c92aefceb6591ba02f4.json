@@ -1,0 +1,63 @@
+{
+  "username": "testinguser",
+  "heading": "schwinn",
+  "body": "<span class=\"mention-highlighter\" contenteditable=\"false\">#schwinn</span>&nbsp;bike for sale! <span class=\"mention-highlighter-price\" contenteditable=\"false\">$40</span>&nbsp;<span class=\"mention-highlighter-location\" contenteditable=\"false\">@1000 Yosemite Boulevard, Modesto, CA, United States</span>&nbsp;",
+  "expiresAt": "2015-10-28T00:04:28.282Z",
+  "categoryCode": "SBIK",
+  "annotations": [
+    {
+      "key": "Color",
+      "value": "red"
+    },
+    {
+      "key": "Model",
+      "value": "schwinn"
+    },
+    {
+      "key": "Warranty",
+      "value": null
+    }
+  ],
+  "postingId": "1c2dd7fcdc614c92aefceb6591ba02f4",
+  "location": {
+    "state": "CA",
+    "postalCode": "95354",
+    "country": "US"
+  },
+  "language": "EN",
+  "images": [
+    {
+      "full": "https://static.hashtagsell.com/posts/e0b0337bced757dd5e78b228e0624061.JPG",
+      "thumbnail": "https://static.hashtagsell.com/posts/thumb_e0b0337bced757dd5e78b228e0624061.JPG"
+    },
+    {
+      "full": "https://static.hashtagsell.com/posts/de8f05fd24109c8c20d31b1fa40f9ea5.jpg",
+      "thumbnail": "https://static.hashtagsell.com/posts/thumb_de8f05fd24109c8c20d31b1fa40f9ea5.jpg"
+    }
+  ],
+  "geo": {
+    "coordinates": [
+      -120.97767929999998,
+      37.6381998
+    ]
+  },
+  "createdAt": "2015-10-14T00:04:28.282Z",
+  "askingPrice": {
+    "value": "40",
+    "currency": "USD"
+  },
+  "external": {
+    "threeTaps": {
+      "categoryGroup": "SSSS",
+      "category": "SBIK",
+      "location": {
+        "state": "CA",
+        "formatted": "1000 Yosemite Blvd, Modesto, CA 95354, USA",
+        "country": "US"
+      }
+    },
+    "source": {
+      "code": "HSHTG"
+    }
+  }
+}

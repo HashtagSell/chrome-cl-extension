@@ -1,0 +1,111 @@
+{
+  "username": "testinguser",
+  "heading": "honda accord 1999",
+  "body": "I'm selling my <span class=\"mention-highlighter\" contenteditable=\"false\">#honda accord</span>&nbsp;<span class=\"mention-highlighter\" contenteditable=\"false\">#1999</span>&nbsp;for <span class=\"mention-highlighter-price\" contenteditable=\"false\">$2,000</span>. &nbsp;Pickup only and cash only <span class=\"mention-highlighter-location\" contenteditable=\"false\">@1200 Santa Monica Boulevard, Santa Monica, CA, United States</span>&nbsp;",
+  "expiresAt": "2015-10-28T00:00:23.876Z",
+  "categoryCode": "VAUT",
+  "annotations": [
+    {
+      "key": "Vin",
+      "value": "234234"
+    },
+    {
+      "key": "Fuel",
+      "value": "gasoline"
+    },
+    {
+      "key": "Engine",
+      "value": "v6"
+    },
+    {
+      "key": "Transmission",
+      "value": "auto"
+    },
+    {
+      "key": "Drive Train",
+      "value": null
+    },
+    {
+      "key": "Interior Color",
+      "value": null
+    },
+    {
+      "key": "Exterior Color",
+      "value": null
+    },
+    {
+      "key": "Body Type",
+      "value": null
+    },
+    {
+      "key": "Mileage",
+      "value": "88000"
+    },
+    {
+      "key": "Year",
+      "value": null
+    },
+    {
+      "key": "Model",
+      "value": "Accord"
+    },
+    {
+      "key": "Make",
+      "value": "Honda"
+    },
+    {
+      "key": "Brand",
+      "value": null
+    },
+    {
+      "key": "Material Type",
+      "value": null
+    },
+    {
+      "key": "Model",
+      "value": null
+    }
+  ],
+  "postingId": "0b722c04d0544adda509932485f481de",
+  "location": {
+    "state": "CA",
+    "postalCode": "90404",
+    "country": "US"
+  },
+  "language": "EN",
+  "images": [
+    {
+      "full": "https://static.hashtagsell.com/posts/6936a54657cae61bcaa8982686f8af50.JPG",
+      "thumbnail": "https://static.hashtagsell.com/posts/thumb_6936a54657cae61bcaa8982686f8af50.JPG"
+    },
+    {
+      "full": "https://static.hashtagsell.com/posts/4eabd8cde68f4453fc590d2eabbf6070.jpg",
+      "thumbnail": "https://static.hashtagsell.com/posts/thumb_4eabd8cde68f4453fc590d2eabbf6070.jpg"
+    }
+  ],
+  "geo": {
+    "coordinates": [
+      -118.48722399999997,
+      34.022497
+    ]
+  },
+  "createdAt": "2015-10-14T00:00:23.876Z",
+  "askingPrice": {
+    "value": "2000",
+    "currency": "USD"
+  },
+  "external": {
+    "threeTaps": {
+      "categoryGroup": "VVVV",
+      "category": "VAUT",
+      "location": {
+        "state": "CA",
+        "formatted": "1200 Santa Monica Blvd, Santa Monica, CA 90404, USA",
+        "country": "US"
+      }
+    },
+    "source": {
+      "code": "HSHTG"
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "username": "testinguser",
+  "heading": "coffee machine",
+  "body": "This is a used <span class=\"mention-highlighter\" contenteditable=\"false\">#coffee machine</span>&nbsp;that can be picked up <span class=\"mention-highlighter-location\" contenteditable=\"false\">@1600 Telegraph Avenue, Oakland, CA, United States</span>&nbsp;",
+  "expiresAt": "2015-10-27T23:58:31.430Z",
+  "categoryCode": "SAPL",
+  "annotations": [
+    {
+      "key": "Brand",
+      "value": "Mr. Coffee"
+    },
+    {
+      "key": "Color",
+      "value": "Black"
+    },
+    {
+      "key": "Material Type",
+      "value": "Plastic"
+    },
+    {
+      "key": "Model",
+      "value": null
+    },
+    {
+      "key": "Warranty",
+      "value": "none"
+    }
+  ],
+  "postingId": "0e2c92a108f548fda119847fc268b033",
+  "location": {
+    "state": "CA",
+    "postalCode": "94612",
+    "country": "US"
+  },
+  "language": "EN",
+  "images": [
+    {
+      "full": "https://static.hashtagsell.com/posts/a6551dcb6b98dbca79b96150a2cfb577.jpeg",
+      "thumbnail": "https://static.hashtagsell.com/posts/thumb_a6551dcb6b98dbca79b96150a2cfb577.jpeg"
+    },
+    {
+      "full": "https://static.hashtagsell.com/posts/617e009755fb7412a5e85b2120b934f9.jpg",
+      "thumbnail": "https://static.hashtagsell.com/posts/thumb_617e009755fb7412a5e85b2120b934f9.jpg"
+    }
+  ],
+  "geo": {
+    "coordinates": [
+      -122.2703548,
+      37.8063893
+    ]
+  },
+  "createdAt": "2015-10-13T23:58:31.430Z",
+  "askingPrice": {
+    "currency": "USD"
+  },
+  "external": {
+    "threeTaps": {
+      "categoryGroup": "SSSS",
+      "category": "SAPL",
+      "location": {
+        "state": "CA",
+        "formatted": "1600 Telegraph Ave, Oakland, CA 94612, USA",
+        "country": "US"
+      }
+    },
+    "source": {
+      "code": "HSHTG"
+    }
+  }
+}
