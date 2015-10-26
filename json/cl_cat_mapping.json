@@ -1,0 +1,738 @@
+[
+    {
+        "categories": [
+            {
+                "code": "APET",
+                "name": "pets",
+                "cl_code": null
+            },
+            {
+                "code": "ASUP",
+                "name": "supplies",
+                "cl_code": null
+            },
+            {
+                "code": "AOTH",
+                "name": "other",
+                "cl_code": null
+            }
+        ],
+        "code": "AAAA",
+        "name": "animals"
+    },
+    {
+        "categories": [
+            {
+                "code": "CCNW",
+                "name": "classes and workshops",
+                "cl_code": null
+            },
+            {
+                "code": "COMM",
+                "name": "events",
+                "cl_code": null
+            },
+            {
+                "code": "CGRP",
+                "name": "groups",
+                "cl_code": null
+            },
+            {
+                "code": "CLNF",
+                "name": "lost and found",
+                "cl_code": null
+            },
+            {
+                "code": "CRID",
+                "name": "rideshares",
+                "cl_code": null
+            },
+            {
+                "code": "CVOL",
+                "name": "volunteers",
+                "cl_code": null
+            },
+            {
+                "code": "COTH",
+                "name": "other",
+                "cl_code": null
+            }
+        ],
+        "code": "CCCC",
+        "name": "community"
+    },
+    {
+        "categories": [
+            {
+                "code": "DDEL",
+                "name": "delivery",
+                "cl_code": null
+            },
+            {
+                "code": "DISP",
+                "name": "dispatch",
+                "cl_code": null
+            },
+            {
+                "code": "DTAX",
+                "name": "taxi",
+                "cl_code": null
+            },
+            {
+                "code": "DTOW",
+                "name": "tow",
+                "cl_code": null
+            }
+        ],
+        "code": "DISP",
+        "name": "dispatch"
+    },
+    {
+        "categories": [
+            {
+                "code": "MESC",
+                "name": "escorts",
+                "cl_code": null
+            },
+            {
+                "code": "MFET",
+                "name": "fetish",
+                "cl_code": null
+            },
+            {
+                "code": "MJOB",
+                "name": "jobs",
+                "cl_code": null
+            },
+            {
+                "code": "MMSG",
+                "name": "massage",
+                "cl_code": null
+            },
+            {
+                "code": "MPNW",
+                "name": "phone and websites",
+                "cl_code": null
+            },
+            {
+                "code": "MSTR",
+                "name": "strippers",
+                "cl_code": null
+            },
+            {
+                "code": "MOTH",
+                "name": "other",
+                "cl_code": null
+            }
+        ],
+        "code": "MMMM",
+        "name": "mature"
+    },
+    {
+        "categories": [
+            {
+                "code": "PMSM",
+                "name": "men seeking men",
+                "cl_code": null
+            },
+            {
+                "code": "PMSW",
+                "name": "men seeking women",
+                "cl_code": null
+            },
+            {
+                "code": "PWSM",
+                "name": "women seeking men",
+                "cl_code": null
+            },
+            {
+                "code": "PWSW",
+                "name": "women seeking women",
+                "cl_code": null
+            },
+            {
+                "code": "POTH",
+                "name": "other",
+                "cl_code": null
+            }
+        ],
+        "code": "PPPP",
+        "name": "personals"
+    },
+    {
+        "categories": [
+            {
+                "code": "RCRE",
+                "name": "commercial real estate",
+                "cl_code": null
+            },
+            {
+                "code": "RHFR",
+                "name": "housing for rent",
+                "cl_code": null
+            },
+            {
+                "code": "RHFS",
+                "name": "housing for sale",
+                "cl_code": null
+            },
+            {
+                "code": "RSUB",
+                "name": "housing sublets",
+                "cl_code": null
+            },
+            {
+                "code": "RSWP",
+                "name": "housing swaps",
+                "cl_code": null
+            },
+            {
+                "code": "RLOT",
+                "name": "lots and land",
+                "cl_code": null
+            },
+            {
+                "code": "RPNS",
+                "name": "parking and storage",
+                "cl_code": null
+            },
+            {
+                "code": "RSHR",
+                "name": "room shares",
+                "cl_code": null
+            },
+            {
+                "code": "RVAC",
+                "name": "vacation properties",
+                "cl_code": null
+            },
+            {
+                "code": "RWNT",
+                "name": "want housing",
+                "cl_code": null
+            },
+            {
+                "code": "ROTH",
+                "name": "other",
+                "cl_code": null
+            }
+        ],
+        "code": "RRRR",
+        "name": "real estate"
+    },
+    {
+        "categories": [
+            {
+                "code": "SVCC",
+                "name": "creative",
+                "cl_code": null
+            },
+            {
+                "code": "SVCE",
+                "name": "education",
+                "cl_code": null
+            },
+            {
+                "code": "SVCF",
+                "name": "financial",
+                "cl_code": null
+            },
+            {
+                "code": "SVCM",
+                "name": "health",
+                "cl_code": null
+            },
+            {
+                "code": "SVCH",
+                "name": "household",
+                "cl_code": null
+            },
+            {
+                "code": "SVCP",
+                "name": "professional",
+                "cl_code": null
+            },
+            {
+                "code": "SVCO",
+                "name": "other",
+                "cl_code": null
+            }
+        ],
+        "code": "SVCS",
+        "name": "services"
+    },
+    {
+        "categories": [
+            {
+                "code": "ZOTH",
+                "name": "other",
+                "cl_code": 5
+            }
+        ],
+        "code": "ZZZZ",
+        "name": "uncategorized"
+    },
+    {
+        "categories": [
+            {
+                "code": "VAUT",
+                "name": "autos",
+                "cl_code": 145
+            },
+            {
+                "code": "VMOT",
+                "name": "motorcycles",
+                "cl_code": 69
+            },
+            {
+                "code": "VMPT",
+                "name": "motorcycle parts",
+                "cl_code": 195
+            },
+            {
+                "code": "VPAR",
+                "name": "parts",
+                "cl_code": 122
+            },
+            {
+                "code": "VOTH",
+                "name": "other",
+                "cl_code": 122
+            }
+        ],
+        "code": "VVVV",
+        "name": "vehicles"
+    },
+    {
+        "categories": [
+            {
+                "code": "SANT",
+                "name": "antiques",
+                "cl_code": 150
+            },
+            {
+                "code": "SAPP",
+                "name": "apparel",
+                "cl_code": 94
+            },
+            {
+                "code": "SAPL",
+                "name": "appliances",
+                "cl_code": 149
+            },
+            {
+                "code": "SANC",
+                "name": "art and crafts",
+                "cl_code": 135
+            },
+            {
+                "code": "SKID",
+                "name": "babies and kids",
+                "cl_code": 107
+            },
+            {
+                "code": "SBAR",
+                "name": "barters",
+                "cl_code": 42
+            },
+            {
+                "code": "SBIK",
+                "name": "bicycles",
+                "cl_code": 68
+            },
+            {
+                "code": "SBIZ",
+                "name": "businesses",
+                "cl_code": 134
+            },
+            {
+                "code": "SCOL",
+                "name": "collections",
+                "cl_code": 95
+            },
+            {
+                "code": "SEDU",
+                "name": "educational",
+                "cl_code": 5
+            },
+            {
+                "code": "SELE",
+                "name": "electronics and photo",
+                "cl_code": 96
+            },
+            {
+                "code": "SFNB",
+                "name": "food and beverage",
+                "cl_code": 5
+            },
+            {
+                "code": "SFUR",
+                "name": "furniture",
+                "cl_code": 141
+            },
+            {
+                "code": "SGAR",
+                "name": "garage sales",
+                "cl_code": 73
+            },
+            {
+                "code": "SGFT",
+                "name": "gift cards",
+                "cl_code": 5
+            },
+            {
+                "code": "SHNB",
+                "name": "health and beauty",
+                "cl_code": 152
+            },
+            {
+                "code": "SHNG",
+                "name": "home and garden",
+                "cl_code": 133
+            },
+            {
+                "code": "SIND",
+                "name": "industrial",
+                "cl_code": 193
+            },
+            {
+                "code": "SJWL",
+                "name": "jewelry",
+                "cl_code": 120
+            },
+            {
+                "code": "SLIT",
+                "name": "literature",
+                "cl_code": 5
+            },
+            {
+                "code": "SMNM",
+                "name": "movies and music",
+                "cl_code": 137
+            },
+            {
+                "code": "SMUS",
+                "name": "musical instruments",
+                "cl_code": 98
+            },
+            {
+                "code": "SRES",
+                "name": "restaurants",
+                "cl_code": 134
+            },
+            {
+                "code": "SSNF",
+                "name": "sports and fitness",
+                "cl_code": 93
+            },
+            {
+                "code": "STIX",
+                "name": "tickets",
+                "cl_code": 44
+            },
+            {
+                "code": "STOO",
+                "name": "tools",
+                "cl_code": 118
+            },
+            {
+                "code": "STOY",
+                "name": "toys and hobbies",
+                "cl_code": 132
+            },
+            {
+                "code": "STVL",
+                "name": "travel",
+                "cl_code": 5
+            },
+            {
+                "code": "SWNT",
+                "name": "wanted",
+                "cl_code": 20
+            },
+            {
+                "code": "SOTH",
+                "name": "other",
+                "cl_code": 5
+            }
+        ],
+        "code": "SSSS",
+        "name": "for sale"
+    },
+    {
+        "categories": [
+            {
+                "code": "JACC",
+                "name": "accounting",
+                "cl_code": null
+            },
+            {
+                "code": "JADM",
+                "name": "administrative",
+                "cl_code": null
+            },
+            {
+                "code": "JAER",
+                "name": "aerospace and defense",
+                "cl_code": null
+            },
+            {
+                "code": "JANL",
+                "name": "analyst",
+                "cl_code": null
+            },
+            {
+                "code": "JANA",
+                "name": "animals and agriculture",
+                "cl_code": null
+            },
+            {
+                "code": "JARC",
+                "name": "architecture",
+                "cl_code": null
+            },
+            {
+                "code": "JART",
+                "name": "art",
+                "cl_code": null
+            },
+            {
+                "code": "JAUT",
+                "name": "automobile",
+                "cl_code": null
+            },
+            {
+                "code": "JBEA",
+                "name": "beauty",
+                "cl_code": null
+            },
+            {
+                "code": "JBIZ",
+                "name": "business development",
+                "cl_code": null
+            },
+            {
+                "code": "JWEB",
+                "name": "computer and web",
+                "cl_code": null
+            },
+            {
+                "code": "JCST",
+                "name": "construction and facilities",
+                "cl_code": null
+            },
+            {
+                "code": "JCON",
+                "name": "consulting",
+                "cl_code": null
+            },
+            {
+                "code": "JCUS",
+                "name": "customer service",
+                "cl_code": null
+            },
+            {
+                "code": "JDES",
+                "name": "design",
+                "cl_code": null
+            },
+            {
+                "code": "JEDU",
+                "name": "education",
+                "cl_code": null
+            },
+            {
+                "code": "JENE",
+                "name": "energy",
+                "cl_code": null
+            },
+            {
+                "code": "JENG",
+                "name": "engineering",
+                "cl_code": null
+            },
+            {
+                "code": "JENT",
+                "name": "entertainment and media",
+                "cl_code": null
+            },
+            {
+                "code": "JEVE",
+                "name": "events",
+                "cl_code": null
+            },
+            {
+                "code": "JFIN",
+                "name": "finance",
+                "cl_code": null
+            },
+            {
+                "code": "JFNB",
+                "name": "food and beverage",
+                "cl_code": null
+            },
+            {
+                "code": "JGIG",
+                "name": "gigs",
+                "cl_code": null
+            },
+            {
+                "code": "JGOV",
+                "name": "government",
+                "cl_code": null
+            },
+            {
+                "code": "JHEA",
+                "name": "healthcare",
+                "cl_code": null
+            },
+            {
+                "code": "JHOS",
+                "name": "hospitality and travel",
+                "cl_code": null
+            },
+            {
+                "code": "JHUM",
+                "name": "human resources",
+                "cl_code": null
+            },
+            {
+                "code": "JMNT",
+                "name": "installation, maintenance and repair",
+                "cl_code": null
+            },
+            {
+                "code": "JINS",
+                "name": "insurance",
+                "cl_code": null
+            },
+            {
+                "code": "JINT",
+                "name": "international",
+                "cl_code": null
+            },
+            {
+                "code": "JLAW",
+                "name": "law enforcement",
+                "cl_code": null
+            },
+            {
+                "code": "JLEG",
+                "name": "legal",
+                "cl_code": null
+            },
+            {
+                "code": "JMAN",
+                "name": "management and directorship",
+                "cl_code": null
+            },
+            {
+                "code": "JMFT",
+                "name": "manufacturing and mechanical",
+                "cl_code": null
+            },
+            {
+                "code": "JMAR",
+                "name": "marketing, advertising and public relations",
+                "cl_code": null
+            },
+            {
+                "code": "JNON",
+                "name": "non-profit",
+                "cl_code": null
+            },
+            {
+                "code": "JOPS",
+                "name": "operations and logistics",
+                "cl_code": null
+            },
+            {
+                "code": "JPHA",
+                "name": "pharmaceutical",
+                "cl_code": null
+            },
+            {
+                "code": "JPRO",
+                "name": "product, project and program management",
+                "cl_code": null
+            },
+            {
+                "code": "JPUR",
+                "name": "purchasing",
+                "cl_code": null
+            },
+            {
+                "code": "JQUA",
+                "name": "quality assurance",
+                "cl_code": null
+            },
+            {
+                "code": "JREA",
+                "name": "real estate",
+                "cl_code": null
+            },
+            {
+                "code": "JREC",
+                "name": "recreation",
+                "cl_code": null
+            },
+            {
+                "code": "JRES",
+                "name": "resumes",
+                "cl_code": null
+            },
+            {
+                "code": "JRNW",
+                "name": "retail and wholesale",
+                "cl_code": null
+            },
+            {
+                "code": "JSAL",
+                "name": "sales",
+                "cl_code": null
+            },
+            {
+                "code": "JSCI",
+                "name": "science",
+                "cl_code": null
+            },
+            {
+                "code": "JSEC",
+                "name": "security",
+                "cl_code": null
+            },
+            {
+                "code": "JSKL",
+                "name": "skilled trade and general labor",
+                "cl_code": null
+            },
+            {
+                "code": "JTEL",
+                "name": "telecommunications",
+                "cl_code": null
+            },
+            {
+                "code": "JTRA",
+                "name": "transportation",
+                "cl_code": null
+            },
+            {
+                "code": "JVOL",
+                "name": "volunteer",
+                "cl_code": null
+            },
+            {
+                "code": "JWNP",
+                "name": "writing and publishing",
+                "cl_code": null
+            },
+            {
+                "code": "JOTH",
+                "name": "other",
+                "cl_code": null
+            }
+        ],
+        "code": "JJJJ",
+        "name": "jobs"
+    }
+]

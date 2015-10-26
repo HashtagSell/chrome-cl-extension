@@ -17,8 +17,10 @@
 
 	"background": {
 		"scripts": [
+			"js/common.js",
 			"js/background.js",
-			"js/listingmeta.js",
+			"js/categories.js",
+			"js/locations.js",
 			"js/authentication.js"
 		]
 	},

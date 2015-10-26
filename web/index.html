@@ -75,7 +75,7 @@
 				$$('a').each(function(a){
 					a.addEvent('click', function(){ 
 						getAndClick(
-							this.get('class'),
+							this.get('class').split(' ')[0],
 							this.get('key')
 						) 
 					})

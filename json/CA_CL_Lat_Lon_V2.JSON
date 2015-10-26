@@ -1,0 +1,446 @@
+{
+  "urlns" : "https://www.craigslist.org/about/bulk_posting_interface#areas",
+  "states": [
+    {
+      "selector": "california",
+      "url": "http://geo.craigslist.org/iso/us/ca",
+      "geo_areas": [
+        {
+          "url": "http://bakersfield.craigslist.org/",
+          "selector": " bakersfield",
+          "aa" : "bak",
+          "coords": [
+            35.3667,
+            -119.0167
+          ]
+        },
+        {
+          "url": "http://chico.craigslist.org/",
+          "selector": " chico",
+          "aa" : "chc",
+          "coords": [
+            39.74,
+            -121.837478
+          ]
+        },
+        {
+          "url": "http://fresno.craigslist.org/",
+          "selector": " fresno / madera",
+          "aa" : "fre",
+          "coords": [
+            36.863632,
+            -119.946973
+          ]
+        },
+        {
+          "url": "http://goldcountry.craigslist.org/",
+          "selector": " gold country",
+          "aa" : "gld",
+          "coords": [
+            38.847073,
+            -121.026125
+          ]
+        },
+        {
+          "url": "http://hanford.craigslist.org/",
+          "selector": " hanford-corcoran",
+          "aa" : "hnf",
+          "coords": [
+            36.3275,
+            -119.6456
+          ]
+        },
+        {
+          "url": "http://humboldt.craigslist.org/",
+          "selector": " humboldt county",
+          "aa" : "hmb",
+          "coords": [
+            40.8,
+            -123.8
+          ]
+        },
+        {
+          "url": "http://imperial.craigslist.org/",
+          "selector": " imperial county",
+          "aa" : "imp",
+          "coords": [
+            33.04,
+            -115.35
+          ]
+        },
+        {
+          "url": "http://inlandempire.craigslist.org/",
+          "selector": " inland empire",
+          "aa" : "inl",
+          "coords": [
+            34.1216,
+            -116.93
+          ]
+        },
+        {
+          "url": "http://losangeles.craigslist.org/",
+          "selector": " los angeles",
+          "aa" : "lax",
+          "subareas": [
+            {
+              "selector": 1,
+              "name": "westside-southbay-310",
+               "aa" : "wst",
+               "coords": [
+                33.964997,
+                -118.409009
+              ]
+            },
+            {
+              "selector": 2,
+              "name": "san fernando valley",
+               "aa" : "sfv",
+               "coords": [
+                34.2385,
+                -118.4628
+              ]
+            },
+            {
+              "selector": 3,
+              "name": "central LA 213/323",
+               "aa" : "lac",
+               "coords": [
+                34.05,
+                -118.321369
+              ]
+            },
+            {
+              "selector": 4,
+              "name": "san gabriel valley",
+               "aa" : "sgv",
+               "coords": [
+                34.1019,
+                -118.1028
+              ]
+            },
+            {
+              "selector": 5,
+              "name": "long beach / 562",
+               "aa" : "lgb",
+               "coords": [
+                33.7683,
+                -118.1956
+              ]
+            },
+            {
+              "selector": 6,
+              "name": "antelope valley",
+               "aa" : "ant",
+               "coords": [
+                34.7514,
+                -118.2523
+              ]
+            }
+          ]
+        },
+        {
+          "url": "http://mendocino.craigslist.org/",
+          "selector": " mendocino county",
+          "aa" : "mdo",
+          "coords": [
+            39.43,
+            -123.43
+          ]
+        },
+        {
+          "url": "http://merced.craigslist.org/",
+          "selector": " merced",
+          "aa" : "mer",
+          "coords": [
+            37.3,
+            -120.4833
+          ]
+        },
+        {
+          "url": "http://modesto.craigslist.org/",
+          "selector": " modesto",
+          "aa" : "mod",
+          "coords": [
+            37.6614,
+            -120.9944
+          ]
+        },
+        {
+          "url": "http://monterey.craigslist.org/",
+          "selector": " monterey bay",
+          "aa" : "mtb",
+          "coords": [
+            36.8,
+            -121.9
+          ]
+        },
+        {
+          "url": "http://orangecounty.craigslist.org/",
+          "selector": " orange county",
+          "aa" : "orc",
+          "coords": [
+            33.67,
+            -117.78
+          ]
+        },
+        {
+          "url": "http://palmsprings.craigslist.org/",
+          "selector": " palm springs",
+          "aa" : "psp",
+          "coords": [
+            33.8303,
+            -116.5453
+          ]
+        },
+        {
+          "url": "http://redding.craigslist.org/",
+          "selector": " redding",
+          "aa" : "rdd",
+          "coords": [
+            40.5833,
+            -122.3667
+          ]
+        },
+        {
+          "url": "http://reno.craigslist.org/",
+          "selector": " reno / tahoe",
+          "aa" : "rno",
+          "coords": [
+            39.0917,
+            -120.0417
+          ]
+        },
+        {
+          "url": "http://sacramento.craigslist.org/",
+          "selector": " sacramento",
+          "aa" : "sac",
+          "coords": [
+            38.5556,
+            -121.4689
+          ]
+        },
+        {
+          "url": "http://sandiego.craigslist.org/",
+          "selector": " san diego",
+          "aa" : "sdo",
+          "subareas": [
+            {
+              "selector": 1,
+              "name": "city of san diego",
+               "aa" : "csd",
+               "coords": [
+                32.715,
+                -117.1625
+              ]
+            },
+            {
+              "selector": 2,
+              "name": "north san diego county",
+               "aa" : "nsd",
+               "coords": [
+                33.277277,
+                -116.972563
+              ]
+            },
+            {
+              "selector": 3,
+              "name": "east san diego county",
+               "aa" : "esd",
+               "coords": [
+                32.829138,
+                -116.907812
+              ]
+            },
+            {
+              "selector": 4,
+              "name": "south san diego county",
+               "aa" : "ssd",
+               "coords": [
+                32.589933,
+                -117.056594
+              ]
+            }
+          ]
+        },
+        {
+          "url": "http://slo.craigslist.org/",
+          "selector": " san luis obispo",
+          "aa" : "slo",
+          "coords": [
+            35.2742,
+            -35.2742
+          ]
+        },
+        {
+          "url": "http://santabarbara.craigslist.org/",
+          "selector": " santa barbara",
+          "aa" : "sba",
+          "coords": [
+            34.4258,
+            -34.4258
+          ]
+        },
+        {
+          "url": "http://santamaria.craigslist.org/",
+          "selector": " santa maria",
+          "aa" : "smx",
+          "coords": [
+            34.9514,
+            -34.9514
+          ]
+        },
+        {
+          "url": "http://sfbay.craigslist.org/",
+          "selector": " SF bay area",
+          "aa" : "sfo",
+          "subareas": [
+            {
+              "selector": 1,
+              "name": "city of san francisco",
+              "neighborhoods": [
+                {
+                  "name": "bypass this step",
+                  "selector": 0,
+                  "aa" : "sfc",
+                  "coords": [
+                    32.715,
+                    -117.1625
+                  ]
+                }
+              ]
+            },
+            {
+              "selector": 2,
+              "name": "south bay area",
+              "neighborhoods": [
+                {
+                  "name": "bypass this step",
+                  "selector": 0,
+                  "aa" : "sby",
+                  "coords": [
+                    37.33,
+                    -121.94
+                  ]
+                }
+              ]
+            },
+            {
+              "selector": 3,
+              "name": "east bay area",
+              "neighborhoods": [
+                {
+                  "name": "bypass this step",
+                  "selector": 0,
+                  "aa" : "eby",
+                  "coords": [
+                    37.7,
+                    -122.0
+                  ]
+                }
+              ]
+            },
+            {
+              "selector": 4,
+              "name": "peninsula",
+              "neighborhoods": [
+                {
+                  "name": "bypass this step",
+                  "selector": 0,
+                  "aa" : "pen",
+                  "coords": [
+                    37.583333,
+                    -122.401111
+                  ]
+                }
+              ]
+            },
+            {
+              "selector": 5,
+              "name": "north bay / marin",
+              "neighborhoods": [
+                {
+                  "name": "bypass this step",
+                  "selector": 0,
+                  "aa" : "nby",
+                  "coords": [
+                    38.04,
+                    122.74
+                  ]
+                }
+              ]
+            },
+            {
+              "selector": 6,
+              "name": "santa cruz co",
+              "neighborhoods": [
+                {
+                  "name": "bypass this step",
+                  "selector": 0,
+                  "aa" : "scz",
+                  "coords": [
+                    36.9719,
+                    -122.0264
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "url": "http://siskiyou.craigslist.org/",
+          "selector": " siskiyou county",
+          "aa" : "ssk",
+          "coords": [
+            41.5833,
+            -122.5000
+          ]
+        },
+        {
+          "url": "http://stockton.craigslist.org/",
+          "selector": " stockton",
+          "aa" : "stk",
+          "coords": [
+            37.9756,
+            -121.3008
+          ]
+        },
+        {
+          "url": "http://susanville.craigslist.org/",
+          "selector": " susanville",
+          "aa" : "ssn",
+          "coords": [
+            40.4164,
+            -120.6531
+          ]
+        },
+        {
+          "url": "http://ventura.craigslist.org/",
+          "selector": " ventura county",
+          "aa" : "oxr",
+          "coords": [
+            34.36,
+            -119.1500
+          ]
+        },
+        {
+          "url": "http://visalia.craigslist.org/",
+          "selector": " visalia-tulare",
+          "aa" : "vis",
+          "coords": [
+            36.3167,
+            -119.3000
+          ]
+        },
+        {
+          "url": "http://yubasutter.craigslist.org/",
+          "selector": " yuba-sutter",
+          "aa" : "ybs",
+          "coords": [
+            39.134792,
+            -121.626201
+          ]
+        }
+      ]
+    }
+  ]
+}

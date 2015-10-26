@@ -82,9 +82,9 @@ function putActiveURL(path, callback)
 	);
 }
 
-function displayError()
+function displayError(text)
 {
-	var div = $DIV()
+	$DIV()
 		.setStyles({
 			'background' : 'rgba(255,0,0,.75)',
 			'color' : '#fff',
@@ -92,9 +92,8 @@ function displayError()
 			'padding' : 20,
 			'border' : '2px solid red'
 		})
-		.set('text', 'Sorry, there was an error auto-posting your item. Please finish it up manually.');
-
-	div.inject($$$('section.body'), 'top');
+		.set('text', text || 'Sorry, there was an error auto-posting your item. Please finish it up manually.')
+		.inject($$$('section.body'), 'top');
 }
 
 var CraigslistAutoPoster = function()
@@ -122,17 +121,20 @@ var CraigslistAutoPoster = function()
 		_this.submit();
 	}
 
-	//96 is electronics
 	this.selectCategory = function()
 	{
-		_this.selectRadioInput('96');
+// 		console.log('selectCategory.json_data:', json_data);
+		var cat = json_data.clCategoryCode;
+		if(!cat)
+			return displayError('Sorry, we could not auto-choose the appropriate category for your item. Please select one to continue.');
+		
+		_this.selectRadioInput(cat.toString());
 		_this.submit();
 	}
 
-	//1 is San Francisco
 	this.selectSubarea = function()
 	{
-		_this.selectRadioInput('1');
+		_this.selectRadioInput(json_data.clLocation[3]);
 		_this.submit();
 	}
 
@@ -182,14 +184,64 @@ var CraigslistAutoPoster = function()
 			json_data.annotations.each(function(a){
 				//skip annotations without values
 				if(!a.value) return;
-		
-				switch(a.key.toLowerCase())
+
+				var field_key = a.key.toLowerCase();
+				console.log('field.key:', field_key);
+
+				var field_id = {
+					'brand': 'sale_manufacturer',
+					'make': 'auto_make_model',
+					'model': ['sale_model', 'auto_make_model'],
+					'fuel' : 'auto_fuel_type',
+					'transmission' : 'auto_transmission',
+					'vin' : 'auto_vin',
+					'mileage' : 'auto_miles',
+					'exterior color' : 'auto_paint',
+					'body type' : 'auto_bodytype'
+				}[field_key];
+
+				console.log('field.field_id:', field_id);
+				console.log('field.field_id.type:', typeOf(field_id));
+				
+				if(!field_id) 
+					return;
+				else if(typeOf(field_id) != 'array') 
+					field_id = [field_id];
+
+				var field;
+				field_id.each(function(f){
+					console.log('getting field:', f);
+					field = $(f);
+					console.log('getting field.field:', field);
+					if(field) return false;
+				});
+				
+				console.log('field.field:', field);
+
+				if(!field) return;
+				
+				switch(field.get('tag'))
 				{
-					case 'brand':
-						$('sale_manufacturer').value = a.value;
+					case 'select':
+						console.log('switch.select');
+						var val = a.value.toLowerCase().substring(0,3),
+							other;
+
+						field.getElements('option').each(function(o){
+							var option = o.get('text');
+							console.log('option.val:', val, option);
+							if(option.substring(0,3) == val)
+							{
+								o.set('selected', true);
+								return false;
+							}
+							if(option == 'other') other = o;
+						});
 						break;
-					case 'model':
-						$('sale_model').value = a.value;
+					case 'input':
+					default:
+						console.log('switch.default');
+						field.value = (field.value) ? [field.value, a.value].join(' ') : a.value;
 						break;
 				}
 			});
@@ -269,7 +321,7 @@ var CraigslistAutoPoster = function()
 		//send the manage url to the backend
 		console.log('inject.redirect.listing_urls:', listing_urls);
 		new Request({
-			url: 'https://staging-posting-api.hashtagsell.com/v1/postings/'+json_data.postingId+'/publish',
+			url: 'https://staging.hashtagsell.com/v1/postings/'+json_data.postingId+'/publish',
 			method : 'POST',
 			urlEncoded : false,
 			headers : { 'Content-Type' : 'application/json' },

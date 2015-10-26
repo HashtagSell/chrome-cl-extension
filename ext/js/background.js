@@ -28,17 +28,43 @@ var CraigslistExtension = function()
 		});
 	}
 	
+	this.locateListing = function()
+	{
+		var listing = _this.listing_meta,
+			listing_coords = listing.geo.coordinates;
+		listing_coords.reverse();
+		console.log('listing_coords:', listing_coords);
+
+		var distances = HTS_CL_POINTS.map(function(p){
+			return [haversine(listing_coords, p.slice(0,2)), p]
+		});
+
+		distances.sort(sortArrayOnFirstItem);
+// 		console.log(JSON.encode(listing.location), JSON.encode(distances[0]));
+		
+		_this.listing_meta.clLocation = distances[0][1].slice(2);
+	}
+
 	this.startAutoPosting = function()
 	{
 		_this.current_step = null;
+
 		chrome.tabs.update(
 			_this.active_tab.id, 
-			{ url: 'https://post.craigslist.org/c/sfo?lang=en' },
+			{ url: 'https://post.craigslist.org/c/'+_this.listing_meta.clLocation[0]+'?lang=en' },
 			function(tab)
 			{
 				console.log('startAutoPosting.tab:', tab, tab.id);
 			}
 		);			
+	}
+	
+	this.mapCategoryCode = function()
+	{
+		var data = _this.listing_meta,
+			cat = HTS_CL_CATEGORIES[data.categoryCode];
+
+		_this.listing_meta.clCategoryCode = cat;
 	}
 	
 	this.handleInjectMessages = function(request, sender, callback)
@@ -51,7 +77,11 @@ var CraigslistExtension = function()
 			// command from inject that receives a command from the webpage
 			case 'create':
 				_this.is_running = true;
+
 				_this.listing_meta = request.data;
+				_this.mapCategoryCode();
+				_this.locateListing();
+				
 				_this.craiglist_auth = new CraigslistCredentials({
 					'ext' : _this
 				});
@@ -61,7 +91,11 @@ var CraigslistExtension = function()
 			case 'delete':
 				console.log(request.cmd + ' listing');
 				_this.is_running = request.cmd;
+
 				_this.listing_meta = request.data;
+				_this.mapCategoryCode();
+				_this.locateListing();
+
 				_this.craiglist_auth = new CraigslistCredentials({
 					'ext' : _this
 				});

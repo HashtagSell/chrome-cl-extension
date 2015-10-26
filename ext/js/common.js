@@ -242,3 +242,5 @@
 		return radius * c * 1000
 	}
 	
+	function sortArrayOnFirstItem(a, b){ return a[0]-b[0] }
+	
