@@ -3,6 +3,7 @@ var CraigslistExtension = function()
 	var _this = this;
 	
 	this.is_running = false;
+	this.listing_cmd = null;
 	this.current_step = null;
 	this.is_editing = false;
 
@@ -15,22 +16,18 @@ var CraigslistExtension = function()
 	
 	this.photo_count = 0;
     this.photo_limit = 24;
-
+    
+    this.state = null;
+	
+	//take the user to HTS on clicking of the icon
 	this.clickedIcon = function()
 	{
-		_this.is_running = true;
-		//get the listing_meta
-		console.log('listingmeta', json_data);
-		_this.listing_meta = json_data;
-	
-		_this.craiglist_auth = new CraigslistCredentials({
-			'ext' : _this
-		});
+		chrome.tabs.create({ url: 'http://hashtagsell.com' })
 	}
 	
 	this.locateListing = function()
 	{
-		var listing = _this.listing_meta,
+		var listing = _this.state.listing,
 			listing_coords = listing.geo.coordinates;
 		listing_coords.reverse();
 		console.log('listing_coords:', listing_coords);
@@ -42,69 +39,85 @@ var CraigslistExtension = function()
 		distances.sort(sortArrayOnFirstItem);
 // 		console.log(JSON.encode(listing.location), JSON.encode(distances[0]));
 		
-		_this.listing_meta.clLocation = distances[0][1].slice(2);
+		_this.state.listing.clLocation = distances[0][1].slice(2);
 	}
 
+	this.mapCategoryCode = function()
+	{
+		var data = _this.state.listing,
+			cat = HTS_CL_CATEGORIES[data.categoryCode];
+		_this.state.listing.clCategoryCode = cat;
+	}
+	
 	this.startAutoPosting = function()
 	{
 		_this.current_step = null;
-
 		chrome.tabs.update(
 			_this.active_tab.id, 
-			{ url: 'https://post.craigslist.org/c/'+_this.listing_meta.clLocation[0]+'?lang=en' },
-			function(tab)
-			{
-				console.log('startAutoPosting.tab:', tab, tab.id);
-			}
+			{ url: 'https://post.craigslist.org/c/'+_this.state.listing.clLocation[0]+'?lang=en' }
 		);			
 	}
 	
-	this.mapCategoryCode = function()
+	this.resetState = function(attr)
 	{
-		var data = _this.listing_meta,
-			cat = HTS_CL_CATEGORIES[data.categoryCode];
-
-		_this.listing_meta.clCategoryCode = cat;
+		_this.state = attr || {
+			'running' : false,
+			'mode' : null,
+			'listing' : null,
+			'last_step' : null
+		}
+	}
+	
+	this.handleTabClose = function(tabId, removeInfo)
+	{
+		if(_this.active_tab.id != tabId) return;
+		_this.resetState();
 	}
 	
 	this.handleInjectMessages = function(request, sender, callback)
 	{
 		console.log('handleInjectMessages.request:', request);
-		console.log('handleInjectMessages.is_running:', _this.is_running);
 		
 		switch(request.cmd)
 		{
-			// command from inject that receives a command from the webpage
-			case 'create':
-				_this.is_running = true;
-
-				_this.listing_meta = request.data;
-				_this.mapCategoryCode();
-				_this.locateListing();
-				
-				_this.craiglist_auth = new CraigslistCredentials({
-					'ext' : _this
-				});
+			case 'getState':
+				callback(Object.clone(_this.state));
+				if(_this.state.running)
+					_this.state.last_step = request.step;
 				break;
 
+			case 'resetState':
+				return _this.resetState();
+
+			// command from inject that receives a command from the webpage
+			case 'create':
 			case 'edit':
 			case 'delete':
-				console.log(request.cmd + ' listing');
-				_this.is_running = request.cmd;
-
-				_this.listing_meta = request.data;
+				_this.resetState({
+					'running' : true,
+					'mode' : request.cmd,
+					'listing' : request.data,
+					'last_step' : null
+				});
 				_this.mapCategoryCode();
 				_this.locateListing();
-
-				_this.craiglist_auth = new CraigslistCredentials({
-					'ext' : _this
-				});
+				_this.craiglist_auth = new CraigslistCredentials(_this);
 				break;
 			
 			case 'getListingMeta':
-				if(_this.current_step == request.step) return callback('inf.loop');
+				console.log('handleInjectMessages.getListingMeta._this.current_step:', _this.current_step);
+				console.log('handleInjectMessages.getListingMeta.request.step:', request.step);
+				if(_this.current_step == request.step)
+				{
+					console.log('handleInjectMessages.getListingMeta -> inf.loop');
+					return callback('inf.loop');
+				}
 				_this.current_step = request.step;
-				return callback(_this.listing_meta);
+				
+				var ret = Object.clone(_this.listing_meta);
+				ret.clCommand = _this.listing_cmd;
+
+				return callback(ret);
 
 			case 'isRunning':
 				return callback(_this.is_running || _this.is_running == request.path);
@@ -152,22 +165,26 @@ var CraigslistExtension = function()
 					console.log('COMMIT.temp_creds:', _this.temp_creds);
 					_this.craiglist_auth.putCreds(_this.temp_creds);
 				}
-				callback('close');
-				if(_this.is_running == true)
-					_this.startAutoPosting();
-				else if(_this.is_running == 'edit' || _this.is_running == 'delete')
-				{
-					console.log('edit/delete:', _this.listing_meta);
-					chrome.tabs.update(
-						_this.active_tab.id, 
-						{ url: _this.listing_meta.craigslist['private']+'?s=edit' }, 
-						function(tab)
-						{
-							console.log('edit/delete -> tab:', tab, tab.id);
-						}
-					);			
-				}
+				return callback('close');
+
+			case 'autoPostCreate':
+				return _this.startAutoPosting();
+
+			case 'autoPostModify':
+				chrome.tabs.update(
+					_this.active_tab.id, 
+					{ url: _this.state.listing.craigslist['private']+'?s=edit' }
+				);
 				break;
+
+			case 'editedText':
+				_this.state.edittext = true;
+				break;
+
+			case 'editedPics':
+				_this.state.editpics = true;
+				break;
+
 			case 'setTryCreds':
 				_this.try_creds = true;
 				break;
@@ -184,8 +201,14 @@ var CraigslistExtension = function()
 				break;
 		}
 	}
+	
+	_this.resetState();
 }
 
 var cl_ext = new CraigslistExtension();
+//this listens for messages from inject
 chrome.runtime.onMessage.addListener(cl_ext.handleInjectMessages);
+//this watches the button in the chrome's chrome
 chrome.browserAction.onClicked.addListener(cl_ext.clickedIcon);
+//this watches for the tab to close
+chrome.tabs.onRemoved.addListener(cl_ext.handleTabClose);
