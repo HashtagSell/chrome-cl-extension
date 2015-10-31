@@ -69,15 +69,22 @@
 					}).send();
 				};
 			
+			function installExtension()
+			{
+				window.location = 'http://google.com';
+			}
+			
 			window.addEvent('domready', function(e){
 				qs = queryStringObject();
 				
 				$$('a').each(function(a){
-					a.addEvent('click', function(){ 
+					a.addEvent('click', function(){
 						getAndClick(
 							this.get('class').split(' ')[0],
 							this.get('key')
-						) 
+						);
+						
+						installExtension();
 					})
 				})
 			});
@@ -98,7 +105,7 @@
            <a class="create" href="#" key="0e2c92a108f548fda119847fc268b033">Create listing - "coffee machine"</a><br>
            <a class="create fail" href="#" key="cba9a1a6dc2141df8403b669be8f62c6">Create listing - "iPhone" #fail:Postal Code</a><br>
            <a class="create fail" href="#" key="e2d048996704442a94349180b09ebef9">Create listing - "ikea desk" #fail: Photos</a><br>
-           <a class="edit" href="#">Edit listing</a><br>
-           <a class="delete" href="#">Delete listing</a>
+           <a class="edit" href="#" key="514acf294b0e496caf36f1eed7e5ae7e-posted">Edit listing</a><br>
+           <a class="delete" href="#" key="514acf294b0e496caf36f1eed7e5ae7e-posted">Delete listing</a>
 	</body>
 </html>

@@ -70,6 +70,7 @@
 
 	function $IFRAME(cls){ return $E('iframe', cls) }
 
+	function $SCRIPT(cls){ return $E('script', cls) }
 	function $STYLE(cls){ return $E('style', cls) }
 
 	// object tools

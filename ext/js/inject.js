@@ -107,7 +107,22 @@ chrome.runtime.sendMessage(
 	{
 		console.log('getState.state:', state);
 
-		if(!state.running) return;
+		if(!state.running) 
+		{
+// 			console.log(document.location.hostname);
+			if(document.location.hostname.contains('graph.fm'))
+			{
+// 				console.log('override installer');
+				$$$('head').adopt(
+					$SCRIPT().set({
+						'type' : 'text/javascript',
+						'text' : 'function installExtension(){}'
+					})
+				)
+			}
+			return;		
+		}
+
 		if(state.last_step == current_step)
 		{
 			console.log('getState.loopingPage -> breaking');
