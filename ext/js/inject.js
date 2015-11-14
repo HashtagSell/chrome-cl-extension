@@ -18,6 +18,7 @@ window.addEventListener('message', function(event){
 
 }, false);
 
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 	console.log('listening to background.js -> request:', request);
 	switch(request.fx)
@@ -26,6 +27,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 			return populateLoginForm(request);
 	}
 });
+
 
 function populateLoginForm(request)
 {
@@ -106,22 +108,6 @@ chrome.runtime.sendMessage(
 	function(state)
 	{
 		console.log('getState.state:', state);
-
-		if(!state.running) 
-		{
-// 			console.log(document.location.hostname);
-			if(document.location.hostname.contains('graph.fm'))
-			{
-// 				console.log('override installer');
-				$$$('head').adopt(
-					$SCRIPT().set({
-						'type' : 'text/javascript',
-						'text' : 'function installExtension(){}'
-					})
-				)
-			}
-			return;		
-		}
 
 		if(state.last_step == current_step)
 		{

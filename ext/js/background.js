@@ -201,14 +201,32 @@ var CraigslistExtension = function()
 				break;
 		}
 	}
+
+	this.checkVersion = function(request, sender, sendResponse) {
+		if (request) {
+			if (request.message) {
+				if (request.message == "version") {
+					var manifest = chrome.runtime.getManifest();
+					sendResponse(manifest.version);
+				}
+			}
+		}
+		return true;
+	}
 	
 	_this.resetState();
 }
 
 var cl_ext = new CraigslistExtension();
+
 //this listens for messages from inject
 chrome.runtime.onMessage.addListener(cl_ext.handleInjectMessages);
+
 //this watches the button in the chrome's chrome
 chrome.browserAction.onClicked.addListener(cl_ext.clickedIcon);
+
 //this watches for the tab to close
 chrome.tabs.onRemoved.addListener(cl_ext.handleTabClose);
+
+//this listens for request to check version of extension from external application
+chrome.runtime.onMessageExternal.addListener(cl_ext.checkVersion);
