@@ -1,9 +1,10 @@
 {
 	"manifest_version": 2,
-	"name": "HashtagSell -> Craigslist",
+	"name": "HashtagSell - Sell your used-goods",
+  	"short_name": "HashtagSell",
 	"version": "0.2",
-	"description": "Post your HashtagSell listings on Craigslist.",
-	"homepage_url": "http://hashtagsell.com",
+	"description": "Sell your used-goods in seconds",
+	"homepage_url": "https://www.hashtagsell.com",
 
 	"browser_action": {
 		"default_icon": "icons/48x48.png"

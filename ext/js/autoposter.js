@@ -242,7 +242,7 @@ var CraigslistAutoPoster = function(state, step)
 		//send the manage url to the backend
 		console.log('inject.redirect.listing_urls:', listing_urls);
 		new Request({
-			url: 'https://staging.hashtagsell.com/v1/postings/'+json_data.postingId+'/publish',
+			url: 'https://www.hashtagsell.com/v1/postings/'+json_data.postingId+'/publish',
 			method : 'POST',
 			urlEncoded : false,
 			headers : { 'Content-Type' : 'application/json' },
