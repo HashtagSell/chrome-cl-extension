@@ -22,7 +22,7 @@ var CraigslistExtension = function()
 	//take the user to HTS on clicking of the icon
 	this.clickedIcon = function()
 	{
-		chrome.tabs.create({ url: 'http://hashtagsell.com' })
+		chrome.tabs.create({ url: 'https://www.hashtagsell.com' })
 	}
 	
 	this.locateListing = function()
@@ -73,7 +73,7 @@ var CraigslistExtension = function()
 		if(_this.active_tab.id != tabId) return;
 		_this.resetState();
 	}
-	
+
 	this.handleInjectMessages = function(request, sender, callback)
 	{
 		console.log('handleInjectMessages.request:', request);
@@ -202,12 +202,26 @@ var CraigslistExtension = function()
 		}
 	}
 
-	this.checkVersion = function(request, sender, sendResponse) {
+	this.externalMessage = function(request, sender, sendResponse) {
+
+		console.log('external request:', request);
+
 		if (request) {
-			if (request.message) {
-				if (request.message == "version") {
+			if (request.cmd) {
+				if (request.cmd === "version") {
 					var manifest = chrome.runtime.getManifest();
 					sendResponse(manifest.version);
+				} else if(request.cmd === "kickstart") {
+					console.log(request.data);
+					_this.resetState({
+						'running' : true,
+						'mode' : request.cmd,
+						'listing' : request.data,
+						'last_step' : null
+					});
+					_this.mapCategoryCode();
+					_this.locateListing();
+					_this.craiglist_auth = new CraigslistCredentials(_this);
 				}
 			}
 		}
@@ -229,4 +243,14 @@ chrome.browserAction.onClicked.addListener(cl_ext.clickedIcon);
 chrome.tabs.onRemoved.addListener(cl_ext.handleTabClose);
 
 //this listens for request to check version of extension from external application
-chrome.runtime.onMessageExternal.addListener(cl_ext.checkVersion);
+chrome.runtime.onMessageExternal.addListener(cl_ext.externalMessage);
+
+// Check whether new version is installed
+chrome.runtime.onInstalled.addListener(function(details){
+	if(details.reason == "install"){
+		console.log("This is a first install!");
+	}else if(details.reason == "update"){
+		var thisVersion = chrome.runtime.getManifest().version;
+		console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
+	}
+});

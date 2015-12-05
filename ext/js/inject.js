@@ -104,7 +104,7 @@ chrome.runtime.sendMessage(
 	{
 		'cmd' : 'getState',
 		'step' : current_step
-	}, 
+	},
 	function(state)
 	{
 		console.log('getState.state:', state);
@@ -115,7 +115,7 @@ chrome.runtime.sendMessage(
 			chrome.runtime.sendMessage({ 'cmd' : 'resetState' });
 			return displayError();
 		}
-		
+
 		console.log('inject.getState.document.location:', document.location);
 		if(document.location.hostname == 'accounts.craigslist.org')
 		{
@@ -126,7 +126,7 @@ chrome.runtime.sendMessage(
 					chrome.runtime.sendMessage({ 'cmd' : 'credsExist' });
 					chrome.runtime.sendMessage({ 'cmd' : 'clearTempCreds' });
 					break;
-				
+
 				case 'login/home':
 					if(state.running && !state.last_step.contains('/login'))
 						return chrome.runtime.sendMessage({ 'cmd' : 'resetState' });
@@ -134,12 +134,12 @@ chrome.runtime.sendMessage(
 					attachLogout();
 					chrome.runtime.sendMessage({ 'cmd' : 'commitTempCreds' });
 					chrome.runtime.sendMessage({ 'cmd' : 'resetTryCreds' });
-					chrome.runtime.sendMessage({ 
-						'cmd' : (state.mode == 'create') ? 'autoPostCreate' : 'autoPostModify' 
+					chrome.runtime.sendMessage({
+						'cmd' : (state.mode == 'create') ? 'autoPostCreate' : 'autoPostModify'
 					});
-					
+
 					break;
-				
+
 				case 'logout':
 					chrome.runtime.sendMessage({ 'cmd' : 'resetState' });
 					break;

@@ -2,8 +2,8 @@
 	"manifest_version": 2,
 	"name": "HashtagSell - Sell your used-goods",
   	"short_name": "HashtagSell",
-	"version": "0.2",
-	"description": "Sell your used-goods in seconds",
+	"version": "0.3",
+	"description": "Post your used-goods online in seconds",
 	"homepage_url": "https://www.hashtagsell.com",
 
 	"browser_action": {

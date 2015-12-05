@@ -1,5 +1,7 @@
 var CraigslistAutoPoster = function(state, step)
 {
+
+	console.log('autoposter running!');
 	var _this = this;
 	var json_data = state.listing;
 	this.state = state;
