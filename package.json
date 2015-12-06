@@ -1,0 +1,26 @@
+{
+  "name": "chrome-cl-extension",
+  "version": "1.0.0",
+  "description": "Chrome extension to publish HashtagSell posts to Craigslist and other marketplaces",
+  "main": "Gruntfile.js",
+  "dependencies": {
+    "grunt": "^0.4.5"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-uglify": "^0.11.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HashtagSell/chrome-cl-extension.git"
+  },
+  "author": "Brad Davis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HashtagSell/chrome-cl-extension/issues"
+  },
+  "homepage": "https://github.com/HashtagSell/chrome-cl-extension"
+}

@@ -201,9 +201,7 @@ var CraigslistExtension = function()
 
 			case 'autoPostModify':
 				console.log(_this.state);
-				if(_this.active_tab && _this.state.listing) {
-					chrome.tabs.update(_this.active_tab.id, {url: _this.state.listing.craigslist['private'] + '?s=edit'});
-				}
+				chrome.tabs.update(_this.active_tab.id, {url: _this.state.listing.craigslist['private'] + '?s=edit'});
 				break;
 
 			case 'editedText':
