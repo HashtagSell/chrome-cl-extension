@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "HashtagSell - Post items for sale in seconds.",
   	"short_name": "HashtagSell",
-	"version": "0.5",
+	"version": "0.6",
 	"description": "Post your used-goods on today's top marketplaces in seconds.",
 	"homepage_url": "https://www.hashtagsell.com",
 
