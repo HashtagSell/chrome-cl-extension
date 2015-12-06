@@ -19,14 +19,14 @@ var CraigslistAutoPoster = function(state, step)
 		console.log('input:', input);
 		input.set('checked', true)
 		return input
-	}
+	};
 	
 	//fso is for sale by owner
 	this.selectFSBO = function()
 	{
 		_this.selectRadioInput('fso');
 		_this.submit();
-	}
+	};
 
 	this.selectCategory = function()
 	{
@@ -34,24 +34,24 @@ var CraigslistAutoPoster = function(state, step)
 		var cat = json_data.clCategoryCode;
 		console.log('selectCategory.cat:', cat);
 		if(!cat)
-			return displayError('Sorry, we could not auto-choose the appropriate category for your item. Please select one to continue.');
+			return displayMessage({message: 'Sorry, we could not auto-choose the appropriate category for your item. Please select one to continue.', error: true});
 		
 		_this.selectRadioInput(cat.toString());
 		_this.submit();
-	}
+	};
 
 	this.selectSubarea = function()
 	{
 		_this.selectRadioInput(json_data.clLocation[3]);
 		_this.submit();
-	}
+	};
 
 	//0 is bypass hood
 	this.selectHood = function()
 	{
 		_this.selectRadioInput('0');
 		_this.submit();
-	}
+	};
 
 	this.populateListing = function()
 	{
@@ -172,13 +172,13 @@ var CraigslistAutoPoster = function(state, step)
 			chrome.runtime.sendMessage({ 'cmd' : 'editedText' });
 
 		$('postingForm').submit();
-	}
+	};
 
 	// geoverify -- shows up only when the 'want a map' option os selected in populateListing
 	this.geoverify = function()
 	{
 		$('leafletForm').submit()
-	}
+	};
 	
 	this.getModifyButton = function(editforms_selector, filter_fx)
 	{
@@ -192,7 +192,7 @@ var CraigslistAutoPoster = function(state, step)
 		console.log('CraigslistAutoPoster.getModifyButton.form:', form);
 		if(!form.length) return;
 		return form[0];
-	}
+	};
 		
 	// disabled for create -> per https://github.com/HashtagSell/chrome-cl-extension/issues/11
 	this.preview = function()
@@ -217,10 +217,15 @@ var CraigslistAutoPoster = function(state, step)
 					}
 				);
 
-			if(!form) return _this.cancel();
+			if(!form) return _this.finish({
+				success: false,
+				error: 'Could not find Craiglist submit button on the page.'
+			});
 			return form.submit()
+		} else {
+			displayMessage({message: 'Please click the publish button manually.  Thank you.', error: false});
 		}
-	}
+	};
 	
 	//this is the DONE step
 	this.redirect = function()
@@ -245,29 +250,57 @@ var CraigslistAutoPoster = function(state, step)
 		console.log('inject.redirect.listing_urls:', listing_urls);
 		console.log('destination', _this.state.dest + '' + json_data.postingId + '/publish');
 
-		new Request({
-			url: _this.state.dest + '' + json_data.postingId + '/publish',
-			method : 'POST',
-			urlEncoded : false,
-			headers : { 'Content-Type' : 'application/json' },
-			data : JSON.encode({ 'craigslist' : listing_urls }),
-			onComplete: function(response)
-			{
-				console.log('inject.redirect.listing_urls.response: ', response);
-				_this.cancel();
-			}
-		}).send();
-	}
+		try {
+			new Request({
+				url: _this.state.dest + '' + json_data.postingId + '/publish',
+				method: 'POST',
+				urlEncoded: false,
+				headers: {'Content-Type': 'application/json'},
+				data: JSON.encode({'craigslist': listing_urls}),
+				timeout: 7000,
+				onComplete: function (response) {
+					console.log('inject.redirect.listing_urls.response: ', response);
+					_this.finish({
+						success: true,
+						error: null
+					});
+				},
+				onFailure: function (err) {
+					console.log('XHR failure', err);
+					_this.finish({
+						success: false,
+						error: err
+					});
+				},
+				onTimeout: function () {
+					console.log('Publishing Timeout!');
+					_this.finish({
+						success: false,
+						error: "HashtagSell could not capture the final URL to your Craiglist post.  Please edit/delete your CL post manually on their website if necessary."
+					});
+				}
+			}).send();
+		} catch(err){
+			_this.finish({
+				success: false,
+				error: err
+			});
+		}
+	};
 
 	this.submit = function()
 	{
 		$$$('form.picker').submit();
-	}
-	
-	this.cancel = function()
+	};
+
+
+	this.finish = function(response)
 	{
-		chrome.runtime.sendMessage({ 'cmd' : 'resetState' })
-	}
+		chrome.runtime.sendMessage({
+			'cmd' : 'finish',
+			response: response
+		});
+	};
 	
 	this.run = function(step)
 	{
@@ -298,13 +331,16 @@ var CraigslistAutoPoster = function(state, step)
 					}
 				);
 
-			if(!form) return _this.cancel();
+			if(!form) return _this.finish({
+				success: false,
+				error: 'Could not find Craiglist submit button on the page.'
+			});
  			return form.submit();
 		}
 		
 		console.log('CraigslistAutoPoster.run -> s():', s);
 		s()
-	}
+	};
 	
 	this.populatePhotos = function()
 	{
@@ -345,7 +381,7 @@ var CraigslistAutoPoster = function(state, step)
 		_this.image_queue.each(function(img, i){ 
 			_this.getImageFromHashtagSell(img.full, i) 
 		})
-	}
+	};
 	
 	this.getImageFromHashtagSell = function(url, idx)
 	{
@@ -367,7 +403,7 @@ var CraigslistAutoPoster = function(state, step)
 		};
 		
 		xhr.send();
-	}
+	};
 	
 	this.uploadImagesToCraigslist = function()
 	{
@@ -421,4 +457,4 @@ var CraigslistAutoPoster = function(state, step)
 		console.log('uploadImagesToCraigslist -> sending..');
 		xhr.send(form_data);
 	}
-}
+};

@@ -83,19 +83,24 @@ function attachLogout()
 	});
 }
 
-function displayError(text)
+function displayMessage(options)
 {
-// 	if(!is_running) return;
+	var rgb;
+	if(options.error){
+		rgb = '255, 0, 0';  //red
+	} else {
+		rgb = '25, 140, 255';  //blue
+	}
 
 	$DIV()
 		.setStyles({
-			'background' : 'rgba(255,0,0,.75)',
+			'background' : 'rgba(' + rgb + ',.75)',
 			'color' : '#fff',
 			'width' : 'calc(100% - 40px)',
 			'padding' : 20,
-			'border' : '2px solid red'
+			'border' : '2px solid ' + rgb
 		})
-		.set('text', text || 'Sorry, there was an error auto-posting your item. Please finish it up manually.')
+		.set('text', options.message)
 		.inject($$$('section.body'), 'top');
 }
 
@@ -113,7 +118,7 @@ chrome.runtime.sendMessage(
 		{
 			console.log('getState.loopingPage -> breaking');
 			chrome.runtime.sendMessage({ 'cmd' : 'resetState' });
-			return displayError();
+			return displayMessage({message: 'Sorry, there was an error auto-posting your item. Please finish it up manually.', error: true});
 		}
 
 		console.log('inject.getState.document.location:', document.location);

@@ -67,7 +67,26 @@ var CraigslistExtension = function()
 			'mode' : null,
 			'listing' : null,
 			'last_step' : null
+		};
+	};
+
+
+	this.finish = function(response)
+	{
+		console.log('resetState Active Tab', _this.active_tab);
+
+		_this.state = {
+				'running' : false,
+				'mode' : null,
+				'listing' : null,
+				'last_step' : null
+			};
+
+		if(_this.active_tab){
+			chrome.tabs.update(_this.original_tab.id, {selected: true});
 		}
+
+		_this.finalCallback(response);
 	};
 	
 	this.handleTabClose = function(tabId)
@@ -92,6 +111,9 @@ var CraigslistExtension = function()
 
 			case 'resetState':
 				return _this.resetState();
+
+			case 'finish':
+				return _this.finish(request.response);
 
 			// command from inject that receives a command from the webpage
 			case 'create':
@@ -209,7 +231,7 @@ var CraigslistExtension = function()
 		}
 	};
 
-	this.externalMessage = function(request, sender, sendResponse) {
+	this.externalMessage = function(request, sender, callback) {
 
 		console.log('external request:', request);
 
@@ -217,19 +239,29 @@ var CraigslistExtension = function()
 			if (request.cmd) {
 				if (request.cmd === "version") {
 					var manifest = chrome.runtime.getManifest();
-					sendResponse(manifest.version);
-				} else if(request.cmd === "create") {
-					console.log(request.data);
-					_this.resetState({
-						'running' : true,
-						'dest' : request.dest,
-						'mode' : request.cmd,
-						'listing' : request.data,
-						'last_step' : null
-					});
-					_this.mapCategoryCode();
-					_this.locateListing();
-					_this.craiglist_auth = new CraigslistCredentials(_this);
+					callback(manifest.version);
+				} else if(request.cmd === "create" || request.cmd === "edit" || request.cmd === "delete")  {
+					chrome.tabs.query({
+							active:true,windowType:"normal",
+							currentWindow: true
+						}, function(currentTab){
+							_this.original_tab = currentTab[0];
+							_this.finalCallback = callback;
+
+							_this.resetState({
+								'running' : true,
+								'dest' : request.dest,
+								'mode' : request.cmd,
+								'listing' : request.data,
+								'last_step' : null
+							});
+
+							_this.mapCategoryCode();
+							_this.locateListing();
+							_this.craiglist_auth = new CraigslistCredentials(_this);
+
+						}
+					);
 				}
 			}
 		}
