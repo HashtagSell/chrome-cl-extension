@@ -1,10 +1,10 @@
 var CraigslistAutoPoster = function(state, step)
 {
 
-	console.log('autoposter running!');
 	var _this = this;
 	var json_data = state.listing;
 	this.state = state;
+	console.log('autoposter running!', _this.state);
 	
 	if(!json_data) return console.log('CraigslistAutoPoster.!json');
 
@@ -234,7 +234,7 @@ var CraigslistAutoPoster = function(state, step)
 		};
 		
 		$$('a').each(function(a){
-			var href = a.get('href')
+			var href = a.get('href');
 			if(a.get('text') == href)
 				listing_urls['public'] = href;
 			else if(a.get('text').toLowerCase().contains('manage'))
@@ -243,8 +243,10 @@ var CraigslistAutoPoster = function(state, step)
 
 		//send the manage url to the backend
 		console.log('inject.redirect.listing_urls:', listing_urls);
+		console.log('destination', _this.state.dest + '' + json_data.postingId + '/publish');
+
 		new Request({
-			url: 'https://www.hashtagsell.com/v1/postings/'+json_data.postingId+'/publish',
+			url: _this.state.dest + '' + json_data.postingId + '/publish',
 			method : 'POST',
 			urlEncoded : false,
 			headers : { 'Content-Type' : 'application/json' },

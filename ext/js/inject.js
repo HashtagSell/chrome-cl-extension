@@ -149,6 +149,10 @@ chrome.runtime.sendMessage(
 
 		console.log('inject.getState.state.mode:', state.mode);
 		var clp = new CraigslistAutoPoster(state);
-		clp.run(qs.s);
+		try {
+			clp.run(qs.s);
+		} catch(err) {
+			console.log(err);
+		}
 	}
 )

@@ -5,7 +5,7 @@ var CraigslistExtension = function()
 	this.is_running = false;
 	this.listing_cmd = null;
 	this.current_step = null;
-	this.is_editing = false;
+	//this.is_editing = false;
 
 	this.temp_creds = null;
 	this.try_creds = false;
@@ -15,7 +15,7 @@ var CraigslistExtension = function()
 	this.listing_meta = null;
 	
 	this.photo_count = 0;
-    this.photo_limit = 24;
+    //this.photo_limit = 24;
     
     this.state = null;
 	
@@ -23,7 +23,7 @@ var CraigslistExtension = function()
 	this.clickedIcon = function()
 	{
 		chrome.tabs.create({ url: 'https://www.hashtagsell.com' })
-	}
+	};
 	
 	this.locateListing = function()
 	{
@@ -40,23 +40,25 @@ var CraigslistExtension = function()
 // 		console.log(JSON.encode(listing.location), JSON.encode(distances[0]));
 		
 		_this.state.listing.clLocation = distances[0][1].slice(2);
-	}
+	};
 
 	this.mapCategoryCode = function()
 	{
 		var data = _this.state.listing,
 			cat = HTS_CL_CATEGORIES[data.categoryCode];
 		_this.state.listing.clCategoryCode = cat;
-	}
+	};
 	
 	this.startAutoPosting = function()
 	{
 		_this.current_step = null;
-		chrome.tabs.update(
-			_this.active_tab.id, 
-			{ url: 'https://post.craigslist.org/c/'+_this.state.listing.clLocation[0]+'?lang=en' }
-		);			
-	}
+		if(_this.active_tab) {
+			chrome.tabs.update(
+				_this.active_tab.id,
+				{url: 'https://post.craigslist.org/c/' + _this.state.listing.clLocation[0] + '?lang=en'}
+			);
+		}
+	};
 	
 	this.resetState = function(attr)
 	{
@@ -66,13 +68,15 @@ var CraigslistExtension = function()
 			'listing' : null,
 			'last_step' : null
 		}
-	}
+	};
 	
-	this.handleTabClose = function(tabId, removeInfo)
+	this.handleTabClose = function(tabId)
 	{
-		if(_this.active_tab.id != tabId) return;
+		if(_this.active_tab) {
+			if (_this.active_tab.id != tabId) return;
+		}
 		_this.resetState();
-	}
+	};
 
 	this.handleInjectMessages = function(request, sender, callback)
 	{
@@ -95,6 +99,7 @@ var CraigslistExtension = function()
 			case 'delete':
 				_this.resetState({
 					'running' : true,
+					'dest' : request.dest,
 					'mode' : request.cmd,
 					'listing' : request.data,
 					'last_step' : null
@@ -131,10 +136,12 @@ var CraigslistExtension = function()
 				
 				if(request.path == false)
 				{
-					chrome.tabs.update(
-						_this.active_tab.id, 
-						{ url: 'https://accounts.craigslist.org/logout' }
-					);			
+					if(_this.active_tab) {
+						chrome.tabs.update(
+							_this.active_tab.id,
+							{url: 'https://accounts.craigslist.org/logout'}
+						);
+					}
 				}
 				
 				return callback(_this.is_running || _this.is_running == request.path);
@@ -171,10 +178,10 @@ var CraigslistExtension = function()
 				return _this.startAutoPosting();
 
 			case 'autoPostModify':
-				chrome.tabs.update(
-					_this.active_tab.id, 
-					{ url: _this.state.listing.craigslist['private']+'?s=edit' }
-				);
+				console.log(_this.state);
+				if(_this.active_tab && _this.state.listing) {
+					chrome.tabs.update(_this.active_tab.id, {url: _this.state.listing.craigslist['private'] + '?s=edit'});
+				}
 				break;
 
 			case 'editedText':
@@ -200,7 +207,7 @@ var CraigslistExtension = function()
 				_this.try_creds = false;
 				break;
 		}
-	}
+	};
 
 	this.externalMessage = function(request, sender, sendResponse) {
 
@@ -211,10 +218,11 @@ var CraigslistExtension = function()
 				if (request.cmd === "version") {
 					var manifest = chrome.runtime.getManifest();
 					sendResponse(manifest.version);
-				} else if(request.cmd === "kickstart") {
+				} else if(request.cmd === "create") {
 					console.log(request.data);
 					_this.resetState({
 						'running' : true,
+						'dest' : request.dest,
 						'mode' : request.cmd,
 						'listing' : request.data,
 						'last_step' : null
@@ -226,10 +234,10 @@ var CraigslistExtension = function()
 			}
 		}
 		return true;
-	}
+	};
 	
 	_this.resetState();
-}
+};
 
 var cl_ext = new CraigslistExtension();
 
@@ -244,13 +252,3 @@ chrome.tabs.onRemoved.addListener(cl_ext.handleTabClose);
 
 //this listens for request to check version of extension from external application
 chrome.runtime.onMessageExternal.addListener(cl_ext.externalMessage);
-
-// Check whether new version is installed
-chrome.runtime.onInstalled.addListener(function(details){
-	if(details.reason == "install"){
-		console.log("This is a first install!");
-	}else if(details.reason == "update"){
-		var thisVersion = chrome.runtime.getManifest().version;
-		console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
-	}
-});
